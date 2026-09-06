@@ -216,7 +216,7 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
     <div class="kard rv" style="--d:0ms"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · 72 ЧАСА</span><span lang="en">LANDING PAGE · 72 HOURS</span></span><p lang="ru">лендинг под одну задачу (событие, акция, запуск), 72 часа</p><p lang="en">a landing page for one specific thing (an event, a launch, an offer), 72 hours</p></div>
     <div class="kard rv" style="--d:80ms"><span class="k-tag"><span lang="ru">САЙТ</span><span lang="en">WEBSITE</span></span><p lang="ru">сайт-визитка для бизнеса, срок зависит от объёма</p><p lang="en">a full business website, timeline depends on scope</p></div>
     <div class="kard rv" style="--d:160ms"><span class="k-tag"><span lang="ru">СОПРОВОЖДЕНИЕ</span><span lang="en">UPKEEP</span></span><p lang="ru">сопровождение после запуска: правки, обновления, обслуживание</p><p lang="en">upkeep after launch: edits, updates, maintenance</p></div>
-    <a class="kard pronto rv" style="--d:240ms" href="#form" data-kind="bot"><span class="mark"><img src="img/pronto.svg" width="36" height="36" alt="Pronto"></span><p lang="ru">Ещё умею собирать AI-ботов, которые отвечают клиентам и ведут заявку. Это отдельный продукт со своим домом, Pronto.</p><p lang="en">I also build AI bots that answer customers and capture leads. That's a separate product with its own home, Pronto.</p><span class="k-tag">Pronto</span></a>
+    <a class="kard pronto rv" style="--d:240ms" href="#form" data-kind="бот"><span class="mark"><img src="img/pronto.svg" width="36" height="36" alt="Pronto"></span><p lang="ru">Ещё умею собирать AI-ботов, которые отвечают клиентам и ведут заявку. Это отдельный продукт со своим домом, Pronto.</p><p lang="en">I also build AI bots that answer customers and capture leads. That's a separate product with its own home, Pronto.</p><span class="k-tag">Pronto</span></a>
   </div>
 </div></section>
 
@@ -269,9 +269,9 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
       <fieldset>
         <legend class="lb"><span lang="ru">ЧТО СТРОИШЬ</span><span lang="en">WHAT ARE YOU BUILDING</span></legend>
         <div class="chips">
-          <label class="chip"><input type="radio" name="kind" value="landing"><span lang="ru">лендинг</span><span lang="en">landing page</span></label>
-          <label class="chip"><input type="radio" name="kind" value="site"><span lang="ru">сайт</span><span lang="en">website</span></label>
-          <label class="chip"><input type="radio" name="kind" value="bot"><span lang="ru">бот</span><span lang="en">bot</span></label>
+          <label class="chip"><input type="radio" name="kind" value="лендинг"><span lang="ru">лендинг</span><span lang="en">landing page</span></label>
+          <label class="chip"><input type="radio" name="kind" value="сайт"><span lang="ru">сайт</span><span lang="en">website</span></label>
+          <label class="chip"><input type="radio" name="kind" value="бот"><span lang="ru">бот</span><span lang="en">bot</span></label>
         </div>
       </fieldset>
       <label><span class="lb"><span lang="ru">СООБЩЕНИЕ</span><span lang="en">MESSAGE</span></span><textarea name="message" rows="4"></textarea></label>
@@ -285,15 +285,15 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
 <footer class="foot">
   <span class="wm"><span lang="ru">КАССА</span><span lang="en">KASSA</span></span>
   <span class="dot">·</span>
-  <a class="pr" href="#form" data-kind="bot"><img src="img/pronto.svg" width="18" height="18" alt="">Pronto</a>
+  <a class="pr" href="#form" data-kind="бот"><img src="img/pronto.svg" width="18" height="18" alt="">Pronto</a>
   <span class="dot">·</span>
   <nav class="lang" aria-label="RU / EN"><button type="button" data-set="ru">RU</button><span class="sep">|</span><button type="button" data-set="en">EN</button></nav>
 </footer>
 
 <script>
 (function(){
-  /* t.me Тахира ставит CTO; пока адреса нет, кнопки телеграма ведут на форму ниже */
-  var TG="";
+  /* t.me Тахира (CTO, письмо [violet], взят через Bot API) и транспорт формы на hq-live */
+  var TG="https://t.me/hellotakhir", LEAD="https://hq-live-production.up.railway.app/kassa/lead";
   var h=document.documentElement, RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
   var META={ru:["КАССА: сайт и лендинг за 72 часа","Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены. Лендинг за 72 часа."],
             en:["KASSA: websites and landing pages in 72 hours","I build it myself: a live site, changes before launch, domain and hosting set up. A landing page in 72 hours."]};
@@ -348,7 +348,7 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
     paint();
   }
 
-  /* форма: уходит на /api/lead, состояние на месте */
+  /* форма: уходит на hq-live (CTO), состояние на месте */
   var f=document.getElementById("lead"),msg=document.getElementById("fmsg"),done=document.getElementById("done");
   if(f)f.addEventListener("submit",function(ev){
     ev.preventDefault();
@@ -356,8 +356,8 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
     var name=(d.get("name")||"").trim(),contact=(d.get("contact")||"").trim();
     if(!name||!contact){msg.textContent=T[lang()].need;(name?f.contact:f.name).focus();return}
     var btn=f.querySelector("button");btn.disabled=true;msg.textContent="";
-    fetch("/api/lead",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({name:name,contact:contact,kind:d.get("kind")||"",message:(d.get("message")||"").trim(),lang:lang(),page:location.href})})
+    fetch(LEAD,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name:name,contact:contact,kind:d.get("kind")||"",message:(d.get("message")||"").trim(),lang:lang()})})
     .then(function(r){if(!r.ok)throw new Error(r.status);f.hidden=true;done.hidden=false})
     .catch(function(){msg.textContent=T[lang()].err})
     .then(function(){btn.disabled=false});
