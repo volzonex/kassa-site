@@ -41,10 +41,22 @@ ok("шапка без sticky и blur", not re.search(r"\.top\{[^}]*(sticky|fixed
 ok("t.me Тахира стоит", 'var TG="https://t.me/hellotakhir"' in H)
 ok("транспорт формы стоит", "hq-live-production.up.railway.app/kassa/lead" in H)
 ok("тексты успеха формы", "Получил. Отвечаю сам." in H and "Got it. I reply myself." in H)
+# засечки героя: подмножества CDO покрывают ровно нынешний текст <h1>, RU и EN; сменится слово, знак молча упадёт на Golos
+try:
+    from fontTools.ttLib import TTFont
+    heads = re.findall(r"<h1[^>]*>(.*?)</h1>", H, re.S)
+    htext = html.unescape(re.sub(r"<[^>]+>", "", " ".join(heads)))
+    cover = set()
+    for f in ("fonts/serif-en-exact.woff2", "fonts/serif-ru-exact.woff2"):
+        t = TTFont(f); cover |= set(t.getBestCmap()); t.close()
+    miss = sorted({c for c in htext if c.strip() and ord(c) not in cover})
+    ok("засечки покрывают весь текст h1 (RU и EN)", not miss, "нет знаков: " + str(miss))
+except ImportError:
+    ok("засечки покрывают весь текст h1 (RU и EN)", False, "fontTools не установлен: pip3 install --user fonttools brotli")
 if "--live" in sys.argv:
     def curl(*a):
         return subprocess.run(["curl", "-s", "--max-time", "20", *a], capture_output=True, text=True).stdout
-    live = os.environ.get("KASSA_LIVE", "https://hq-live-production.up.railway.app/kassa/")
+    live = os.environ.get("KASSA_LIVE", "https://kassa-site.vercel.app/")
     got = subprocess.run(["curl", "-s", "--max-time", "20", live], capture_output=True).stdout
     ok("живой index = репа (sha256)", hashlib.sha256(got).hexdigest() == hashlib.sha256(open("index.html", "rb").read()).hexdigest())
     for r in sorted(refs):

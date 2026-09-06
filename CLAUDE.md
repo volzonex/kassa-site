@@ -32,16 +32,23 @@ Vercel деплоит из неё (импорт проекта делается 
   `html.pixi` и ставит `html.nowebgl`, остаётся CSS-колода; первые 2 с меряется FPS (в
   `html[data-fps]`): ниже 40 снимается displacement, ниже 28 канвас уничтожается;
   IntersectionObserver останавливает ticker вне экрана; DPR `min(dpr,2)`, на узких 1.5.
-  Режим кадров приёмки `?end=1` (веер) и `?end=0` (стопка): сторож FPS в нём выключен, иначе
-  headless на программном рендере (единицы fps) за 2 с честно снимает канвас и кадр показывает
-  CSS-колоду (это отдельный кадр-доказательство `live-px-ru-fpsguard.png`). Сторож считает по
+  Режим кадров приёмки `?end=1` (веер) и `?end=0` (стопка) живёт ТОЛЬКО в `review/rig.html`
+  (mkrig.py подменяет строку `var forceQ=null,review=false;`), на проде выключателя страховки
+  нет (критик [willow48], CDO [ruby66]). В риге сторож FPS выключен; на живом адресе headless
+  на программном рендере (единицы fps) за 2 с после старта сцены честно снимает канвас, и кадр
+  показывает CSS-колоду (`live-px-ru-fpsguard.png`). Кадры сцены с живого адреса с этого мака
+  снять нельзя, только rig или Playwright критика. Сторож считает по
   стенным часам с третьего кадра (после провала критика [ember29]: дельта тикера зажата
   `maxElapsedMS` и на слабом железе растягивала «2 с» до десяти). Вес сверху на десктопе с WebGL:
   200 984 (Pixi) + 42 814 (плита) байт по сети с Vercel, потолок спеки 250 КБ. `PIXI.Assets.load` в headless виснет,
   поэтому картинки через `new Image()` + `Texture.from`.
-- **Типографика героя при живом Pixi (CDO [heather21]):** заголовок Noto Serif Display 600
-  (`fonts/NotoSerifDisplay-600-latin/cyrillic.woff2` из папки CDO, unicode-range, preload по
-  активному языку из head-скрипта только при `html.pixi`), латунь `#C8A26A` на «72», крем
+- **Типографика героя при живом Pixi (CDO [heather21], [cactus78]):** заголовок Noto Serif
+  Display 600 урезанными подмножествами CDO `fonts/serif-en-exact.woff2` (9 КБ) и
+  `fonts/serif-ru-exact.woff2` (5.5 КБ) из `warroom/cdo/kassa/fonts/` (там README с командой
+  пересборки). Подмножества покрывают РОВНО нынешний текст h1: цифры и точка в латинском файле,
+  на RU нужны оба. Сменится слово в заголовке, пересобрать подмножество, иначе знак молча упадёт
+  на Golos; `tools/check.py` это ловит через fontTools (`pip3 install fonttools brotli`).
+  Unicode-range как раньше, preload по активному языку из head-скрипта только при `html.pixi`, латунь `#C8A26A` на «72», крем
   `#F2EFE9`, кнопки моно-капс .16em. Текст CCO не меняется. Eyebrow и ряд цифр со стенда не
   берём: под них нужен текст CCO. В CSS-фолбэке герой прежний (Golos, терракота), чтобы телефон
   без WebGL не качал засечки.
@@ -72,8 +79,11 @@ Vercel деплоит из неё (импорт проекта делается 
   импорт больше не нужен). Заголовки и кэш из `vercel.json`, `tools/`, `review/` и
   `CLAUDE.md` не уезжают (`.vercelignore`). После пуша сверять sha256 отданного index с
   репой: `curl -s https://kassa-site.vercel.app/ | shasum -a 256`.
-- **Запасной адрес:** `https://hq-live-production.up.railway.app/kassa/` (`/kassa` без
-  слэша даёт 301). Заливка: `PUT …/kassa/<путь>` с `Authorization: Bearer
+- **Показывать только Vercel** (COO [ember84], CDO [pillar25]): ссылку на hq-live никому не
+  давать и в кадры не вставлять, сверка байт в байт с hq-live из приёмки убрана.
+- **Запасной адрес (парашют):** `https://hq-live-production.up.railway.app/kassa/` (`/kassa`
+  без слэша даёт 301). Держит CSS-сборку до Pixi (index из коммита 554d16f), гасится после
+  приёмки Pixi Тахиром. Заливка: `PUT …/kassa/<путь>` с `Authorization: Bearer
   <KASSA_DEPLOY_SECRET>`, тело = сырые байты; секрет в письме CTO [topaz37] в архиве почты
   craftsman за 2026-09, в репу не класть. Прокси отдаёт без gzip и с no-store, это его
   свойство, не дефект сборки.
@@ -89,7 +99,9 @@ Vercel деплоит из неё (импорт проекта делается 
 python3 tools/check.py --live      # текст без имён и цен, пары языков, ассеты, веса, живой адрес, эндпоинт формы
 bash review/shoot.sh 1440 900 d && bash review/shoot.sh 390 844 m   # кадры в оба языка
 ```
-`tools/`, `review/` и `CLAUDE.md` в `.vercelignore`, на прод не уезжают.
+`tools/`, `review/` и `CLAUDE.md` в `.vercelignore`, на прод не уезжают. Мутацию для recap
+делать ТОЛЬКО на закоммиченном index.html: откат через `git checkout -- index.html` снёс
+незакоммиченные правки 06.09, пришлось накатывать патч заново.
 Pixi-герой: `bash review/shoot-pixi.sh desk` (стопка, веер, без WebGL через `--disable-3d-apis`,
 reduced-motion через `--force-prefers-reduced-motion`) и `bash review/shoot-pixi.sh mob` (390
 через iframe). Кадр с живого телефона в Telegram остаётся за Тахиром.
