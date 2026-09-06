@@ -5,17 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>КАССА: сайт и лендинг за 72 часа</title>
 <meta name="description" content="Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены. Лендинг за 72 часа.">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#F4EFE7">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0A0B0D">
 <meta property="og:type" content="website">
 <meta property="og:title" content="КАССА: сайт и лендинг за 72 часа">
 <meta property="og:description" content="Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2322262B'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='34' fill='%23F4EFE7'%3EK%3C/text%3E%3Ccircle cx='50' cy='16' r='6' fill='%23D96A46'/%3E%3C/svg%3E">
-<script>(function(){try{var q=new URLSearchParams(location.search).get("lang"),s=null;try{s=localStorage.getItem("kassa-lang")}catch(e){}var n=((navigator.language||"").toLowerCase().indexOf("ru")===0)?"ru":"en";var l=(q==="ru"||q==="en")?q:((s==="ru"||s==="en")?s:n);var h=document.documentElement;h.setAttribute("data-lang",l);h.setAttribute("lang",l);h.className="js";var rm=matchMedia("(prefers-reduced-motion: reduce)").matches,pc=document.createElement("canvas"),gl=!rm&&(pc.getContext("webgl2")||pc.getContext("webgl"));if(gl){h.classList.add("pixi");["fonts/serif-en-exact.woff2"].concat(l==="ru"?["fonts/serif-ru-exact.woff2"]:[]).forEach(function(f){var k=document.createElement("link");k.rel="preload";k.as="font";k.type="font/woff2";k.crossOrigin="";k.setAttribute("href",f);document.head.appendChild(k)});var ps=document.createElement("link");ps.rel="modulepreload";ps.setAttribute("href","vendor/pixi.min.js");ps.setAttribute("fetchpriority","low");document.head.appendChild(ps)}}catch(e){}})();</script>
+<script>(function(){try{var q=new URLSearchParams(location.search).get("lang"),s=null;try{s=localStorage.getItem("kassa-lang")}catch(e){}var n=((navigator.language||"").toLowerCase().indexOf("ru")===0)?"ru":"en";var l=(q==="ru"||q==="en")?q:((s==="ru"||s==="en")?s:n);var h=document.documentElement;h.setAttribute("data-lang",l);h.setAttribute("lang",l);h.className="js";
+/* засечки заголовка живут в базе, preload по активному языку всегда */
+["fonts/serif-en-exact.woff2"].concat(l==="ru"?["fonts/serif-ru-exact.woff2"]:[]).forEach(function(f){var k=document.createElement("link");k.rel="preload";k.as="font";k.type="font/woff2";k.crossOrigin="";k.setAttribute("href",f);document.head.appendChild(k)});
+/* движение: только при WebGL и без reduced-motion; класс pixi управляет одним движением, облик в базе */
+var rm=matchMedia("(prefers-reduced-motion: reduce)").matches,pc=document.createElement("canvas"),gl=!rm&&(pc.getContext("webgl2")||pc.getContext("webgl"));if(gl){h.classList.add("pixi");var ps=document.createElement("link");ps.rel="modulepreload";ps.setAttribute("href","vendor/pixi.min.js");ps.setAttribute("fetchpriority","low");document.head.appendChild(ps)}}catch(e){}})();</script>
 <link rel="preload" href="fonts/GolosText-700-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/GolosText-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-/* ---- шрифты: локальные, Golos Text 400/700 на всё, JetBrains Mono 400 на служебное ---- */
+/* ---- шрифты: локальные, Golos 400/700 на тело, JetBrains Mono 400 на служебное, Noto Serif Display 600 на заголовок героя (урезанные подмножества CDO) ---- */
 @font-face{font-family:'Golos';font-weight:400;font-display:swap;src:url(fonts/GolosText-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Golos';font-weight:400;font-display:swap;src:url(fonts/GolosText-400-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 @font-face{font-family:'Golos';font-weight:700;font-display:swap;src:url(fonts/GolosText-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -26,60 +30,52 @@
 @font-face{font-family:'Mono';font-weight:400;font-display:swap;src:url(fonts/JetBrainsMono-400-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--paper:#F4EFE7;--ink:#22262B;--terra:#B4462A;--terra2:#D96A46;--mute:#6B6A66;--line:#DCD5C9;--mono:'Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
-html{scroll-behavior:smooth;background:var(--paper);color-scheme:light}
+/* ---- тёмная база (CDO [swallow]): палитра в корне, класс pixi облика не касается ---- */
+:root{--paper:#0A0B0D;--ink:#F2EFE9;--mute:#C9C5BD;--line:#2A2C30;--brass:#C8A26A;--terra2:#D96A46;--plate:#14161A;--plate2:#1B1D22;--mono:'Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+html{scroll-behavior:smooth;background:var(--paper);color-scheme:dark}
 body{background:var(--paper);color:var(--ink);font:400 17px/1.5 'Golos',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{max-width:100%;display:block}
 a{color:inherit}
-/* оба языка в DOM, показ по data-lang на html */
 html[data-lang="en"] [lang="ru"],html[data-lang="ru"] [lang="en"]{display:none!important}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
-/* ---- шапка: статичная, без sticky и blur, везде ---- */
-.top{display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+/* ---- шапка: статичная, без sticky и blur ---- */
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;background:var(--paper);color:var(--ink);font-family:var(--mono);font-size:13px;letter-spacing:.08em}
 .wm{font-family:'Golos';font-weight:700;font-size:18px;letter-spacing:.02em;text-decoration:none}
 .lang{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:13px;letter-spacing:.08em}
-.lang button{font:inherit;letter-spacing:inherit;background:none;border:0;color:var(--mute);cursor:pointer;padding:4px 6px 2px;border-bottom:2px solid transparent}
+.lang button{font:inherit;letter-spacing:inherit;background:none;border:0;color:#8A8781;cursor:pointer;padding:4px 6px 2px;border-bottom:2px solid transparent}
 .lang .sep{color:var(--line)}
-html[data-lang="ru"] .lang [data-set="ru"],html[data-lang="en"] .lang [data-set="en"]{color:var(--ink);border-bottom-color:var(--terra)}
+html[data-lang="ru"] .lang [data-set="ru"],html[data-lang="en"] .lang [data-set="en"]{color:var(--ink);border-bottom-color:var(--brass)}
 
-/* ---- hero: текст + колода (стенд CDO, дословно) ---- */
-.hero{position:relative;min-height:170vh}
-.hero .sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;grid-template-rows:auto 1fr;padding:2vh 5vw 0}
-h1{font-weight:700;font-size:clamp(38px,6.2vw,96px);line-height:1.02;letter-spacing:-.025em;max-width:14ch}
-html[data-lang="en"] h1{font-size:clamp(34px,4.8vw,72px);max-width:17ch}
-h1 em{font-style:normal;color:var(--terra)}
+/* ---- герой: тёмная статическая сцена это база и фолбэк, Pixi добавляет только движение ---- */
+.hero{position:relative;min-height:170vh;background:var(--paper)}
+.hero .sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;padding:min(34vh,calc(100vh - 540px)) 5vw 6vh;background:var(--paper);color:var(--ink)}
+.plate{position:absolute;inset:0;z-index:0;background:var(--paper) url(img/room.webp) 50% 46%/cover no-repeat}
+.veil{position:absolute;inset:0;z-index:1;background:rgba(10,11,13,.42)}
+/* три плиты работ: те же кропы, что в портфолио, полоса 52..86% высоты; расстановка как в сцене */
+.slabs{position:absolute;inset:0;z-index:2;--base:min(41.5vw,660px);--cx:74.5%;--cy:50%}
+.slab{position:absolute;left:var(--cx);top:var(--cy);width:calc(var(--base) * var(--k));aspect-ratio:1280/272;overflow:hidden;border-radius:12px;box-shadow:14px 26px 44px rgba(0,0,0,.75);outline:1.2px solid rgba(200,162,106,var(--edge));outline-offset:-1px;transform:translate(calc(-50% - var(--dx)),calc(-50% - var(--dy))) rotate(var(--rot))}
+.slab img{width:100%;height:auto;margin-top:-32.5%;display:block}
+.slab.s1{--k:1;--dx:0px;--dy:0px;--rot:-9deg;--edge:.42}
+.slab.s2{--k:.92;--dx:44px;--dy:108px;--rot:-7deg;--edge:.34;opacity:.94;filter:brightness(.78) blur(.9px)}
+.slab.s3{--k:.84;--dx:88px;--dy:194px;--rot:-5deg;--edge:.26;opacity:.88;filter:brightness(.62) blur(1.8px)}
+#scene{position:absolute;inset:0;z-index:3;display:none}
+#scene canvas{display:block;width:100%;height:100%}
+.grain{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;mix-blend-mode:overlay;display:none}
+.hd{position:relative;z-index:5;max-width:720px}
+h1{font-family:'NotoSD',Georgia,'Times New Roman',serif;font-weight:600;font-size:clamp(44px,5.6vw,86px);line-height:1.02;letter-spacing:-.015em;max-width:8.4em}
+html[data-lang="en"] h1{font-size:clamp(36px,4.4vw,66px);max-width:9em}
+h1 em{font-style:normal;color:var(--brass)}
 .sub{margin-top:14px;max-width:46ch;color:var(--mute);font-size:clamp(15px,1.3vw,19px)}
 .cta{display:inline-flex;flex-wrap:wrap;gap:14px;margin-top:22px}
-.btn{display:inline-flex;align-items:center;font-weight:700;font-size:15px;padding:14px 22px;border-radius:12px;background:var(--ink);color:var(--paper);text-decoration:none;border:1.5px solid var(--ink);cursor:pointer;font-family:inherit;line-height:1.2;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.btn{display:inline-flex;align-items:center;font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:16px 26px;border-radius:2px;background:var(--ink);color:var(--paper);text-decoration:none;border:1px solid var(--ink);cursor:pointer;line-height:1.2;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
 .btn:active{transform:translateY(1px)}
-.btn.ghost{background:transparent;color:var(--ink)}
-.btn.sm{padding:11px 18px;font-size:14px}
-/* колода: 4 карты-сайта в перспективе, раскладываются по скроллу */
-.deck{position:relative;perspective:1400px;perspective-origin:50% 30%;height:100%;margin-top:2vh;--cw:min(62vw,760px,calc((100vh - 470px) * 1.6))}
-.card{position:absolute;left:50%;top:6%;width:var(--cw);aspect-ratio:16/10;margin-left:calc(var(--cw) / -2);
-  border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -30px rgba(34,38,43,.45),0 0 0 1px rgba(34,38,43,.08);
-  transform-style:preserve-3d;will-change:transform;
-  /* стартовое положение: стопка, лёгкий наклон назад */
-  transform:translate3d(0,0,0) rotateX(14deg) rotateY(0) translateZ(calc(var(--i) * -40px)) translateY(calc(var(--i) * 14px));
-  animation:fan linear both;animation-timeline:scroll(root);animation-range:0 70vh}
-.card img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.card .tag{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;background:rgba(34,38,43,.86);color:var(--paper);padding:6px 10px;border-radius:8px}
-/* конечные позы: веер, каждая карта своя (нарисованы руками, не формула) */
-.c1{--i:0;--rx:6deg;--ry:-16deg;--tx:-46%;--ty:6%;--tz:60px}
-.c2{--i:1;--rx:8deg;--ry:-5deg;--tx:-15%;--ty:-2%;--tz:20px}
-.c3{--i:2;--rx:8deg;--ry:6deg;--tx:16%;--ty:-2%;--tz:-20px}
-.c4{--i:3;--rx:6deg;--ry:17deg;--tx:47%;--ty:6%;--tz:-60px}
-@keyframes fan{to{transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}}
-/* без поддержки scroll-driven: скрипт ниже ведёт те же transform по скроллу, а без JS стоит веер */
-@supports not (animation-timeline:scroll()){.card{animation:none;transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}}
-body.end .card{animation:none;transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}
-/* мобила: колода в столбик с лёгким наклоном, без веера в стороны */
-@media (max-width:640px){.hero{min-height:auto}.hero .sticky{position:static;height:auto;display:block;padding-bottom:8vh;overflow:visible}
-  .deck{perspective:900px;height:auto;margin-top:26px}
-  .card{position:relative;left:0;margin:0 0 -18% 0;width:100%;animation:none;transform:rotateX(10deg) translateZ(0)}
-  .c2{transform:rotateX(10deg) translateY(-6%)}.c3{transform:rotateX(10deg) translateY(-12%)}.c4{transform:rotateX(10deg) translateY(-18%)}
-  .card:last-child{margin-bottom:0}}
+.btn.ghost{background:transparent;color:var(--ink);border-color:rgba(242,239,233,.32)}
+.btn.sm{padding:12px 18px;font-size:11px}
+/* движение: только эти правила зависят от класса pixi/live, облика они не задают */
+html.pixi #scene{display:block}
+html.live .grain{display:block}
+html.live .slabs{display:none}
 
 /* ---- секции ---- */
 .sec{padding:14vh 5vw;border-top:1px solid var(--line)}
@@ -89,35 +85,35 @@ h2{font-weight:700;font-size:clamp(28px,3.6vw,52px);line-height:1.08;letter-spac
 .k-tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--mute)}
 .lead{font-size:clamp(18px,1.6vw,24px);line-height:1.45;max-width:38ch}
 /* 72 */
-.num{font-weight:700;font-size:clamp(80px,14vw,200px);line-height:.9;letter-spacing:-.04em;color:var(--terra);font-variant-numeric:tabular-nums}
+.num{font-weight:700;font-size:clamp(80px,14vw,200px);line-height:.9;letter-spacing:-.04em;color:var(--brass);font-variant-numeric:tabular-nums}
 .note{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--mute);margin-top:10px}
 .who p{font-size:clamp(20px,2vw,30px);line-height:1.35;letter-spacing:-.01em;max-width:30ch}
 /* что делаю */
-.grid4{display:grid;grid-template-columns:1fr 1fr 1fr .8fr;gap:16px;margin-top:40px}
-.kard{border:1px solid var(--line);border-radius:14px;padding:22px 22px 24px;display:flex;flex-direction:column;gap:14px;min-height:220px;background:#FBF8F2;text-decoration:none}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr .8fr;gap:16px;margin-top:40px;perspective:900px}
+.kard{border:1px solid var(--line);border-radius:14px;padding:22px 22px 24px;display:flex;flex-direction:column;gap:14px;min-height:220px;background:var(--plate);color:var(--ink);text-decoration:none}
 .kard p{font-size:17px;line-height:1.45}
 .kard p::first-letter{text-transform:uppercase}
-.kard .k-tag{color:var(--terra)}
+.kard .k-tag{color:var(--brass)}
 .kard.pronto{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.kard.pronto .mark{width:44px;height:44px;border-radius:10px;background:var(--paper);display:grid;place-items:center}
+.kard.pronto .mark{width:44px;height:44px;border-radius:10px;background:#FFFFFF;display:grid;place-items:center}
 .kard.pronto .mark img{width:36px;height:36px}
-.kard.pronto .k-tag{color:var(--terra2);margin-top:auto}
+.kard.pronto .k-tag{color:#B4462A;margin-top:auto}
 /* оффер */
 .checks{list-style:none;display:grid;gap:16px;font-size:clamp(17px,1.5vw,21px);line-height:1.4}
 .checks li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
 .ck{width:28px;height:28px;margin-top:1px}
-.ck path{fill:none;stroke:var(--terra);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:26;stroke-dashoffset:26;transition:stroke-dashoffset .4s cubic-bezier(.2,.7,.2,1)}
+.ck path{fill:none;stroke:var(--brass);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:26;stroke-dashoffset:26;transition:stroke-dashoffset .4s cubic-bezier(.2,.7,.2,1)}
 .checks.in li:nth-child(1) .ck path{stroke-dashoffset:0;transition-delay:0ms}
 .checks.in li:nth-child(2) .ck path{stroke-dashoffset:0;transition-delay:80ms}
 .checks.in li:nth-child(3) .ck path{stroke-dashoffset:0;transition-delay:160ms}
-.guar{margin-top:26px;display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--terra);border:1.5px solid var(--terra);border-radius:8px;padding:9px 12px}
+.guar{margin-top:26px;display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--brass);border:1.5px solid var(--brass);border-radius:8px;padding:9px 12px}
 .price{margin-top:22px;color:var(--mute);max-width:52ch}
 .offer .btn{margin-top:22px}
 /* портфолио */
 .works{display:grid;gap:56px;margin-top:40px}
 .work{display:grid;grid-template-columns:1.25fr 1fr;gap:5vw;align-items:center}
 .work:nth-child(even) .scr{order:2}
-.scr{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(34,38,43,.12);aspect-ratio:16/10;transform:perspective(1200px) rotateY(-6deg);transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.scr{border-radius:12px;overflow:hidden;background:var(--plate);box-shadow:0 0 0 1px rgba(242,239,233,.12);aspect-ratio:16/10;transform:perspective(1200px) rotateY(-6deg);transition:transform .4s cubic-bezier(.2,.7,.2,1)}
 .work:nth-child(even) .scr{transform:perspective(1200px) rotateY(6deg)}
 .work.in .scr,.work:nth-child(even).in .scr{transform:perspective(1200px) rotateY(0)}
 .scr img{width:100%;height:100%;object-fit:cover;object-position:top}
@@ -128,7 +124,7 @@ h2{font-weight:700;font-size:clamp(28px,3.6vw,52px);line-height:1.08;letter-spac
 form{display:grid;gap:18px}
 label{display:grid;gap:8px}
 .lb{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--mute)}
-input[type=text],textarea{font:inherit;color:var(--ink);background:#FBF8F2;border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%;outline:none}
+input[type=text],textarea{font:inherit;color:var(--ink);background:var(--plate);border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%;outline:none}
 input[type=text]:focus,textarea:focus{border-color:var(--ink)}
 textarea{resize:vertical;min-height:110px}
 fieldset{border:0;display:grid;gap:10px}
@@ -137,49 +133,25 @@ fieldset{border:0;display:grid;gap:10px}
 .chip input{position:absolute;opacity:0;width:0;height:0}
 .chip span{padding:9px 14px;border-radius:999px;border:1.5px solid var(--line);font-size:15px;line-height:1.2;transition:background .2s,border-color .2s,color .2s}
 .chip input:checked+span,.chip input:checked+span+span{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.chip input:focus-visible+span,.chip input:focus-visible+span+span{border-color:var(--terra)}
+.chip input:focus-visible+span,.chip input:focus-visible+span+span{border-color:var(--brass)}
 .frow{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:4px}
-.fmsg{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--terra)}
+.fmsg{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--brass)}
 .btn[disabled]{opacity:.6;cursor:default}
-.done{border:1px solid var(--line);border-radius:14px;padding:40px 28px;background:#FBF8F2}
+.done{border:1px solid var(--line);border-radius:14px;padding:40px 28px;background:var(--plate)}
 .done p{font-weight:700;font-size:clamp(24px,2.6vw,40px);letter-spacing:-.02em;line-height:1.1}
 /* подвал */
-.foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:32px 5vw 40px;border-top:1px solid var(--line);font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+.foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:32px 5vw 40px;border-top:1px solid var(--line);color:var(--ink);font-family:var(--mono);font-size:13px;letter-spacing:.08em}
 .foot .dot{color:var(--line)}
 .foot .pr{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:'Golos';font-weight:700;letter-spacing:.02em}
-.foot .pr img{width:18px;height:18px}
+.foot .pr img{width:18px;height:18px;background:#FFFFFF;border-radius:4px;padding:1px}
 
 /* ---- вход по кадру: только transform и opacity, не длиннее 400 мс ---- */
 html.js .rv{opacity:0}
 @keyframes rise{from{opacity:0;transform:translateY(40px) rotateX(10deg)}to{opacity:1;transform:none}}
 html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0ms)}
-.grid4{perspective:900px}
-
-/* ---- Pixi-герой (спека CDO [sunset]): сцена в той же sticky, текст DOM поверх, CSS-колода остаётся фолбэком ---- */
-#scene{position:absolute;inset:0;z-index:0;display:none}
-#scene canvas{display:block;width:100%;height:100%}
-.grain{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;mix-blend-mode:overlay;display:none}
-.hd{position:relative;z-index:2}
-html.pixi #scene,html.pixi .grain{display:block}
-html.pixi .deck{display:none}
-html.pixi body,html.pixi .hero{background:#0A0B0D}
-html.pixi .top{background:#0A0B0D;color:#F2EFE9}
-html.pixi .top .lang button{color:#8A8781}
-html.pixi[data-lang="ru"] .top .lang [data-set="ru"],html.pixi[data-lang="en"] .top .lang [data-set="en"]{color:#F2EFE9;border-bottom-color:#C8A26A}
-html.pixi .hero .sticky{display:flex;flex-direction:column;justify-content:flex-start;padding:min(34vh,calc(100vh - 540px)) 5vw 6vh;background:#0A0B0D;color:#F2EFE9}
-html.pixi .hd{max-width:720px}
-html.pixi h1{color:#F2EFE9;font-family:'NotoSD',Georgia,'Times New Roman',serif;font-weight:600;font-size:clamp(44px,5.6vw,86px);line-height:1.02;letter-spacing:-.015em;max-width:8.4em}
-html.pixi[data-lang="en"] h1{font-size:clamp(36px,4.4vw,66px);max-width:9em}
-html.pixi h1 em{color:#C8A26A}html.pixi .sub{color:#C9C5BD}
-html.pixi .cta .btn{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:16px 26px;border-radius:2px;background:#F2EFE9;color:#0A0B0D;border:1px solid #F2EFE9}
-html.pixi .cta .btn.ghost{background:transparent;color:#F2EFE9;border-color:rgba(242,239,233,.32)}
-html.pixi .s72{border-top:0}
-@media (max-width:900px){html.pixi .hd::before{content:'';position:absolute;inset:-24px -22px -10px;background:linear-gradient(180deg,rgba(10,11,13,0) 0%,rgba(10,11,13,.86) 18%,rgba(10,11,13,.96) 100%);z-index:-1}}
-@media (max-width:640px){html.pixi .hero{min-height:auto}html.pixi .hero .sticky{position:relative;height:calc(100svh - 62px);min-height:540px;overflow:hidden;justify-content:flex-end;padding:0 5vw 6vh}}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .card{animation:none;transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}
   html.js .rv{opacity:1}html.js .rv.in{animation:none}
   .scr,.work:nth-child(even) .scr{transform:none;transition:none}
   .ck path{stroke-dashoffset:0;transition:none}
@@ -190,12 +162,18 @@ html.pixi .s72{border-top:0}
   .grid4{grid-template-columns:1fr 1fr}
   .work,.work:nth-child(even){grid-template-columns:1fr;gap:18px}
   .work:nth-child(even) .scr{order:0}
-  .sec{padding:10vh 5vw}}
+  .sec{padding:10vh 5vw}
+  /* узкие: плита кадрируется иначе (масштаб 1.25, точка 50% 42%), плиты работ по x 52%, по y 38% */
+  .plate{background-size:125% auto;background-position:50% 42%}
+  .slabs{--base:82vw;--cx:52%;--cy:38%}
+  .slab.s2{--dx:14px}.slab.s3{--dx:28px}
+  .hd::before{content:'';position:absolute;inset:-24px -22px -10px;background:linear-gradient(180deg,rgba(10,11,13,0) 0%,rgba(10,11,13,.86) 18%,rgba(10,11,13,.96) 100%);z-index:-1}}
 @media (max-width:640px){
   .grid4{grid-template-columns:1fr}
   .kard{min-height:0}
   .top{padding:18px 5vw}
-  .hero .sticky{padding-top:1vh}
+  .hero{min-height:auto}
+  .hero .sticky{position:relative;height:calc(100svh - 62px);min-height:540px;justify-content:flex-end;padding:0 5vw 6vh}
   .cta .btn{width:100%;justify-content:center}}
 </style>
 </head>
@@ -207,6 +185,13 @@ html.pixi .s72{border-top:0}
 </header>
 
 <section class="hero" id="top"><div class="sticky">
+  <div class="plate" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="slabs" aria-hidden="true">
+    <div class="slab s3"><img src="img/aselhands.webp" width="1280" height="800" alt="" decoding="async"></div>
+    <div class="slab s2"><img src="img/friendly.webp" width="1280" height="800" alt="" decoding="async"></div>
+    <div class="slab s1"><img src="img/devago.webp" width="1280" height="800" alt="" fetchpriority="high" decoding="async"></div>
+  </div>
   <div id="scene" aria-hidden="true"></div>
   <svg class="grain" aria-hidden="true"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#g)" opacity=".16"/></svg>
   <div class="hd">
@@ -216,12 +201,6 @@ html.pixi .s72{border-top:0}
       <a class="btn tg" href="#form"><span lang="ru">Написать в телеграм</span><span lang="en">Message me on Telegram</span></a>
       <a class="btn ghost" href="#portfolio"><span lang="ru">Смотреть работы</span><span lang="en">See the work</span></a>
     </div>
-  </div>
-  <div class="deck">
-    <a class="card c4" href="https://friendly-lounge-site.vercel.app/" target="_blank" rel="noopener"><img src="img/friendly.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"><span class="tag"><span lang="ru">ЛЕНДИНГ · БРУТАЛИЗМ</span><span lang="en">LANDING · BRUTALIST</span></span></a>
-    <a class="card c3" href="https://easy-lounge-site.vercel.app/" target="_blank" rel="noopener"><img src="img/easy.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"><span class="tag"><span lang="ru">ЛЕНДИНГ · ГРАФИТ И ЗОЛОТО</span><span lang="en">LANDING · GRAPHITE AND GOLD</span></span></a>
-    <a class="card c2" href="https://aselhands-site.vercel.app/" target="_blank" rel="noopener"><img src="img/aselhands.webp" width="1280" height="800" alt="" decoding="async"><span class="tag"><span lang="ru">ЛЕНДИНГ · ТЁПЛЫЙ НЮД</span><span lang="en">LANDING · WARM MINIMAL</span></span></a>
-    <a class="card c1" href="https://devago-ceiling-site.vercel.app/" target="_blank" rel="noopener"><img src="img/devago.webp" width="1280" height="800" alt="" fetchpriority="high" decoding="async"><span class="tag"><span lang="ru">САЙТ · В ПРОДЕ, ОПЛАЧЕН</span><span lang="en">SITE · LIVE, PAID</span></span></a>
   </div>
 </div></section>
 
@@ -265,19 +244,19 @@ html.pixi .s72{border-top:0}
   <h2><span lang="ru">Что уже построено</span><span lang="en">What's already built</span></h2>
   <div class="works">
     <article class="work rv">
-      <div class="scr"><img src="img/devago.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="scr"><img src="img/devago.webp" width="1280" height="800" alt="Скриншот сайта производственной компании, тёмная гамма с золотом" data-alt-ru="Скриншот сайта производственной компании, тёмная гамма с золотом" data-alt-en="Screenshot of a manufacturing company's website, dark palette with gold accents" loading="lazy" decoding="async"></div>
       <div class="wt"><span class="k-tag"><span lang="ru">САЙТ · В ПРОДЕ, ОПЛАЧЕН</span><span lang="en">SITE · LIVE, PAID</span></span><p lang="ru">сайт производственной компании, потолочные системы, в проде, оплачен клиентом</p><p lang="en">a manufacturing company's site, ceiling systems, live and paid for</p><a class="btn ghost sm" href="https://devago-ceiling-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
     </article>
     <article class="work rv">
-      <div class="scr"><img src="img/aselhands.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="scr"><img src="img/aselhands.webp" width="1280" height="800" alt="Скриншот лендинга в тёплой нюдовой гамме" data-alt-ru="Скриншот лендинга в тёплой нюдовой гамме" data-alt-en="Screenshot of a landing page in warm, minimal tones" loading="lazy" decoding="async"></div>
       <div class="wt"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · ТЁПЛЫЙ НЮД</span><span lang="en">LANDING · WARM MINIMAL</span></span><p lang="ru">лендинг в тёплой нюдовой гамме</p><p lang="en">a landing page in warm, minimal tones</p><a class="btn ghost sm" href="https://aselhands-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
     </article>
     <article class="work rv">
-      <div class="scr"><img src="img/easy.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="scr"><img src="img/easy.webp" width="1280" height="800" alt="Скриншот лендинга лаунжа, тёмный графит и золото" data-alt-ru="Скриншот лендинга лаунжа, тёмный графит и золото" data-alt-en="Screenshot of a lounge landing page, dark graphite and gold" loading="lazy" decoding="async"></div>
       <div class="wt"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · ГРАФИТ И ЗОЛОТО</span><span lang="en">LANDING · GRAPHITE AND GOLD</span></span><p lang="ru">лендинг лаунжа, тёмный графит и золото</p><p lang="en">a lounge landing page, dark graphite and gold</p><a class="btn ghost sm" href="https://easy-lounge-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
     </article>
     <article class="work rv">
-      <div class="scr"><img src="img/friendly.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="scr"><img src="img/friendly.webp" width="1280" height="800" alt="Скриншот лендинга в стиле брутализм" data-alt-ru="Скриншот лендинга в стиле брутализм" data-alt-en="Screenshot of a landing page in raw brutalist style" loading="lazy" decoding="async"></div>
       <div class="wt"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · БРУТАЛИЗМ</span><span lang="en">LANDING · BRUTALIST</span></span><p lang="ru">лендинг в стиле брутализм</p><p lang="en">a landing page in raw brutalist style</p><a class="btn ghost sm" href="https://friendly-lounge-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
     </article>
   </div>
@@ -311,7 +290,7 @@ html.pixi .s72{border-top:0}
 <footer class="foot">
   <span class="wm"><span lang="ru">КАССА</span><span lang="en">KASSA</span></span>
   <span class="dot">·</span>
-  <a class="pr" href="#form" data-kind="бот"><img src="img/pronto.svg" width="18" height="18" alt="">Pronto</a>
+  <a class="pr" href="#form" data-kind="бот"><img src="img/pronto.svg" width="18" height="18" alt="Pronto">Pronto</a>
   <span class="dot">·</span>
   <nav class="lang" aria-label="RU / EN"><button type="button" data-set="ru">RU</button><span class="sep">|</span><button type="button" data-set="en">EN</button></nav>
 </footer>
@@ -330,12 +309,12 @@ html.pixi .s72{border-top:0}
     h.setAttribute("data-lang",l);h.setAttribute("lang",l);
     try{localStorage.setItem("kassa-lang",l)}catch(e){}
     document.title=META[l][0];var m=document.querySelector('meta[name="description"]');if(m)m.content=META[l][1];
+    document.querySelectorAll("img[data-alt-ru]").forEach(function(im){im.alt=im.getAttribute("data-alt-"+l)||im.alt});
     if(push){try{var u=new URL(location.href);u.searchParams.set("lang",l);history.replaceState(null,"",u)}catch(e){}}
   }
   setLang(lang(),false);
   document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){setLang(b.getAttribute("data-set"),true)})});
   if(TG){document.querySelectorAll("a.tg").forEach(function(a){a.href=TG;a.target="_blank";a.rel="noopener"})}
-  if(location.search.indexOf("end")>-1)document.body.classList.add("end");
 
   /* чипы формы из ссылок «бот -> Pronto» */
   document.querySelectorAll("[data-kind]").forEach(function(a){a.addEventListener("click",function(){
@@ -359,20 +338,6 @@ html.pixi .s72{border-top:0}
       setTimeout(function(){num.textContent="72"},900); /* страховка: rAF заморожен (фон, экономия энергии), цифра всё равно встанет */
     },{threshold:.5});
     nio.observe(num);
-  }
-
-  /* колода без scroll-driven animations (старый WebView): те же transform по скроллу, только transform */
-  var sda=window.CSS&&CSS.supports&&CSS.supports("animation-timeline","scroll()");
-  if(!sda&&!RM&&innerWidth>640){
-    var cards=[].slice.call(document.querySelectorAll(".card")).map(function(c){
-      var cs=getComputedStyle(c),v=function(n){return parseFloat(cs.getPropertyValue(n))||0};
-      return {el:c,i:v("--i"),rx:v("--rx"),ry:v("--ry"),tx:v("--tx"),ty:v("--ty"),tz:v("--tz")};
-    });
-    var tick=false;
-    function paint(){tick=false;var p=Math.max(0,Math.min(1,scrollY/(innerHeight*.7)));
-      cards.forEach(function(c){c.el.style.transform="translate3d("+(p*c.tx)+"%,"+(p*c.ty)+"%,0) translateY("+((1-p)*c.i*14)+"px) rotateX("+(14+(c.rx-14)*p)+"deg) rotateY("+(c.ry*p)+"deg) translateZ("+(-40*c.i+(c.tz+40*c.i)*p)+"px)"})}
-    addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(paint)}},{passive:true});
-    paint();
   }
 
   /* форма: уходит на hq-live (CTO), состояние на месте */
@@ -399,7 +364,7 @@ html.pixi .s72{border-top:0}
   var hero=document.querySelector(".hero"),sticky=hero.querySelector(".sticky"),scene=document.getElementById("scene");
   /* режим кадров живёт только в review/rig.html (mkrig.py подменяет эту строку), на проде выключателя страховки нет */
   var forceQ=null,review=false;
-  function bail(e){H.classList.remove("pixi");H.classList.add("nowebgl");scene.innerHTML="";if(e)H.setAttribute("data-pixi-err",String(e&&e.message||e).slice(0,200))}
+  function bail(e){H.classList.remove("pixi");H.classList.remove("live");H.classList.add("nowebgl");scene.innerHTML="";if(e)H.setAttribute("data-pixi-err",String(e&&e.message||e).slice(0,200))}
   function loadImg(u){return new Promise(function(res,rej){var im=new Image();im.decoding="async";im.onload=function(){res(im)};im.onerror=function(){rej(new Error("нет "+u))};im.src=u})}
   function noiseTex(){var c=document.createElement("canvas");c.width=c.height=512;var x=c.getContext("2d");x.fillStyle="#808080";x.fillRect(0,0,512,512);
     for(var i=0;i<26;i++){var r=60+Math.random()*150,gx=Math.random()*512,gy=Math.random()*512,g=x.createRadialGradient(gx,gy,0,gx,gy,r),v=Math.random()>.5?255:0;
@@ -410,13 +375,13 @@ html.pixi .s72{border-top:0}
   requestAnimationFrame(function(){if(window.requestIdleCallback)requestIdleCallback(go,{timeout:1200});else setTimeout(go,200)});
   function start(PIXI){
     var app=new PIXI.Application(),narrow0=innerWidth<900,dpr=Math.min(devicePixelRatio||1,narrow0?1.5:2);
-    return app.init({background:"#0A0B0D",antialias:true,resolution:dpr,autoDensity:true,resizeTo:sticky,preference:"webgl"}).then(function(){
+    return app.init({backgroundAlpha:0,antialias:true,resolution:dpr,autoDensity:true,resizeTo:sticky,preference:"webgl"}).then(function(){
       scene.appendChild(app.canvas);
       /* плита среды: комната, не работа */
       var room=new PIXI.Container();app.stage.addChild(room);var roomSp=null;
       var veil=new PIXI.Graphics();room.addChild(veil);
-      function fitRoom(){var w=app.screen.width,h=app.screen.height;
-        if(roomSp){var t=roomSp.texture,sc=Math.max(w/t.width,h/t.height)*1.06;roomSp.scale.set(sc);roomSp.x=w*.5;roomSp.y=h*.46}
+      function fitRoom(){var w=app.screen.width,h=app.screen.height,narrow=w<900;
+        if(roomSp){var t=roomSp.texture,sc=narrow?(w*1.25/t.width):Math.max(w/t.width,h/t.height)*1.06;roomSp.scale.set(sc);roomSp.x=w*.5;roomSp.y=narrow?h*.42:h*.46}
         veil.clear().rect(0,0,w,h).fill({color:0x0A0B0D,alpha:.42})}
       fitRoom();
       loadImg("img/room.webp").then(function(im){roomSp=new PIXI.Sprite(PIXI.Texture.from(im));roomSp.anchor.set(.5);room.addChildAt(roomSp,0);fitRoom()});
@@ -426,8 +391,8 @@ html.pixi .s72{border-top:0}
         return new PIXI.Texture({source:src,frame:new PIXI.Rectangle(0,y,src.width,hh)})})})).then(function(tex){
         var deck=new PIXI.Container();app.stage.addChild(deck);
         var slabs=tex.map(function(t,i){var holder=new PIXI.Container(),shadow=new PIXI.Graphics(),sp=new PIXI.Sprite(t),edge=new PIXI.Graphics();
-          sp.anchor.set(.5);sp.tint=i===0?0xB8B2A8:0xCFCAC2;holder.addChild(shadow,sp,edge);if(i>0)holder.filters=[new PIXI.BlurFilter({strength:i*0.9})];
-          holder.alpha=1-i*.06;deck.addChild(holder);return {holder:holder,sp:sp,edge:edge,shadow:shadow,i:i,bx:0,by:0}});
+          sp.anchor.set(.5);if(i===1)sp.tint=0xCFCAC2;if(i===2)sp.tint=0xA8A297;holder.addChild(shadow,sp,edge);if(i>0)holder.filters=[new PIXI.BlurFilter({strength:i*0.9})];
+          holder.alpha=1-i*.06;deck.addChildAt(holder,0);return {holder:holder,sp:sp,edge:edge,shadow:shadow,i:i,bx:0,by:0}});
         var dispSp=PIXI.Sprite.from(noiseTex());dispSp.texture.source.addressMode="repeat";dispSp.scale.set(1.4);app.stage.addChild(dispSp);dispSp.visible=false;
         var disp=new PIXI.DisplacementFilter({sprite:dispSp,scale:26});deck.filters=[disp];
         var sweep=new PIXI.Graphics();sweep.blendMode="add";app.stage.addChild(sweep);
@@ -445,14 +410,19 @@ html.pixi .s72{border-top:0}
         app.renderer.on("resize",function(){fitRoom();paintSweep();size()});
         var t=0,px=.5,py=.5,frames=0,first0=0,wall0=0,judged=false;
         addEventListener("pointermove",function(e){px=e.clientX/innerWidth;py=e.clientY/innerHeight},{passive:true});
-        function teardown(){try{app.ticker.stop();app.destroy(true,{children:true,texture:true})}catch(e){}bail("fps")}
-        /* не дольше 4 с от старта сцены в любом случае: меньше трёх кадров за это время значит устройство не тянет */
-        if(!review)setTimeout(function(){if(!judged&&frames<3)teardown()},4000);
-        app.ticker.add(function(tk){t+=tk.deltaTime;var w=app.screen.width,h=app.screen.height;
+        function teardown(why){try{app.ticker.stop();app.destroy(true,{children:true,texture:true})}catch(e){}bail(why||"fps")}
+        /* сторож по времени (критик [clover77], CDO [silver81]): отдельный счётчик кадров, который никто не обнуляет,
+           и только при видимой вкладке; скрытая вкладка не наказывается, отсчёт перевзводится, когда на страницу смотрят */
+        var total=0;
+        function arm(){setTimeout(function(){if(judged)return;if(total>=3)return;
+          if(document.visibilityState!=="visible"){document.addEventListener("visibilitychange",function once(){if(document.visibilityState==="visible"){document.removeEventListener("visibilitychange",once);total=0;arm()}});return}
+          teardown("watchdog")},4000)}
+        if(!review)arm();
+        app.ticker.add(function(tk){t+=tk.deltaTime;total++;if(total===3)H.classList.add("live");var w=app.screen.width,h=app.screen.height;
           progress();place();
           sweep.rotation=-.42;sweep.x=((t*1.9)%(w+700))-300+(px-.5)*120;sweep.y=h*.1;
           dispSp.x=(t*.5)%512;dispSp.y=(t*.32)%512;
-          if(roomSp){roomSp.x=w*.5+(px-.5)*26;roomSp.y=h*.46+(py-.5)*16}
+          if(roomSp){roomSp.x=w*.5+(px-.5)*26;roomSp.y=(w<900?h*.42:h*.46)+(py-.5)*16}
           disp.scale.x=disp.scale.y=26+((14+Math.sin(t/70)*6)-26)*q;
           slabs.forEach(function(s){var i=s.i;s.holder.x=s.bx;s.holder.y=s.by+Math.sin(t/90+i)*5.4;
             s.holder.rotation=(-9+i*2)*Math.PI/180+Math.sin(t/120+i*2)*.0048;s.holder.skew.x=(px-.5)*.02*(1-i*.15)});
