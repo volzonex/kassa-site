@@ -168,8 +168,8 @@ html.pixi .top .lang button{color:#8A8781}
 html.pixi[data-lang="ru"] .top .lang [data-set="ru"],html.pixi[data-lang="en"] .top .lang [data-set="en"]{color:#F2EFE9;border-bottom-color:#C8A26A}
 html.pixi .hero .sticky{display:flex;flex-direction:column;justify-content:flex-start;padding:min(34vh,calc(100vh - 540px)) 5vw 6vh;background:#0A0B0D;color:#F2EFE9}
 html.pixi .hd{max-width:720px}
-html.pixi h1{color:#F2EFE9;font-family:'NotoSD',Georgia,'Times New Roman',serif;font-weight:600;font-size:clamp(44px,5.6vw,86px);line-height:1.02;letter-spacing:-.015em;max-width:14ch}
-html.pixi[data-lang="en"] h1{font-size:clamp(36px,4.4vw,66px);max-width:15ch}
+html.pixi h1{color:#F2EFE9;font-family:'NotoSD',Georgia,'Times New Roman',serif;font-weight:600;font-size:clamp(44px,5.6vw,86px);line-height:1.02;letter-spacing:-.015em;max-width:7.7em}
+html.pixi[data-lang="en"] h1{font-size:clamp(36px,4.4vw,66px);max-width:8.3em}
 html.pixi h1 em{color:#C8A26A}html.pixi .sub{color:#C9C5BD}
 html.pixi .cta .btn{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:16px 26px;border-radius:2px;background:#F2EFE9;color:#0A0B0D;border:1px solid #F2EFE9}
 html.pixi .cta .btn.ghost{background:transparent;color:#F2EFE9;border-color:rgba(242,239,233,.32)}
@@ -440,7 +440,7 @@ html.pixi .s72{border-top:0}
             s.shadow.clear().roundRect(-sw/2+14,-sh/2+26,sw,sh,12).fill({color:0x000000,alpha:.75});
             s.edge.clear().roundRect(-sw/2,-sh/2,sw,sh,12).stroke({width:1.2,color:0xC8A26A,alpha:.42-i*.08})})}
         function place(){var w=app.screen.width,h=app.screen.height,narrow=w<900,m=.25+.75*q;
-          slabs.forEach(function(s){var i=s.i;s.bx=narrow?w*.52-i*14*m:w*.745-i*44*m;s.by=(narrow?h*.42:h*.50)-i*86*m-(i>0?22*m:0)})}
+          slabs.forEach(function(s){var i=s.i;s.bx=narrow?w*.52-i*14*m:w*.745-i*44*m;s.by=(narrow?h*.38:h*.50)-i*86*m-(i>0?22*m:0)})}
         paintSweep();size();
         app.renderer.on("resize",function(){fitRoom();paintSweep();size()});
         var t=0,px=.5,py=.5,frames=0,wall0=0,judged=false;
