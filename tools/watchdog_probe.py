@@ -28,5 +28,6 @@ for l in d["log"]: print("  " + l)
 dead = "watchdog" in d["err"] or any("err=watchdog" in l for l in d["log"])
 print(("FAIL " if dead else "OK   ") + "сторож не срабатывает при медленном старте  [красное: data-pixi-err=watchdog в хронике]")
 alive = "live" in d["cls"] or ("pixi" in d["cls"] and not d["err"])
-print("      итог сцены: " + ("жива (class=%r)" % d["cls"] if alive else "снята замером FPS (class=%r err=%r, программный рендер headless даёт ~1 fps)" % (d["cls"], d["err"])))
+who = "сторожем" if d["err"] == "watchdog" else "замером FPS (программный рендер headless даёт ~1 fps)"
+print("      итог сцены: " + ("жива (class=%r)" % d["cls"] if alive else "снята %s (class=%r err=%r)" % (who, d["cls"], d["err"])))
 raise SystemExit(1 if dead else 0)
