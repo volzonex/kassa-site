@@ -26,7 +26,7 @@ ok("из цифр только 72", digits == ["72"], str(digits))
 B = H[H.index("<body"):]
 ok("пар RU/EN поровну (в body)", B.count('lang="ru"') == B.count('lang="en"'), f'{B.count(chr(108)+"ang=%sru%s" % (chr(34),chr(34)))} ru / {B.count(chr(108)+"ang=%sen%s" % (chr(34),chr(34)))} en')
 # 3. ассеты на месте и все используются
-refs = set(re.findall(r'(?:src|href)=["\']((?:img|fonts|vendor)/[^"\']+)', H)) | set(re.findall(r'url\(((?:img|fonts|vendor)/[^)]+)\)', H)) | set(re.findall(r'(?:import|loadImg)\("((?:img|fonts|vendor)/[^"]+)"', H))
+refs = set(re.findall(r'(?:src|href)=["\']((?:img|fonts|vendor)/[^"\']+)', H)) | set(re.findall(r'url\(((?:img|fonts|vendor)/[^)]+)\)', H)) | {m.lstrip("./") for m in re.findall(r'(?:import|loadImg)\("(\.?/?(?:img|fonts|vendor)/[^"]+)"', H)}
 missing = [r for r in refs if not (root / r).exists()]
 ok("все ссылки на img/ и fonts/ существуют", not missing, str(missing))
 files = {str(p.relative_to(root)) for p in list(root.glob("img/*")) + list(root.glob("fonts/*")) + list(root.glob("vendor/*"))}
