@@ -446,6 +446,8 @@ html.pixi .s72{border-top:0}
         var t=0,px=.5,py=.5,frames=0,first0=0,wall0=0,judged=false;
         addEventListener("pointermove",function(e){px=e.clientX/innerWidth;py=e.clientY/innerHeight},{passive:true});
         function teardown(){try{app.ticker.stop();app.destroy(true,{children:true,texture:true})}catch(e){}bail("fps")}
+        /* не дольше 4 с от старта сцены в любом случае: меньше трёх кадров за это время значит устройство не тянет */
+        if(!review)setTimeout(function(){if(!judged&&frames<3)teardown()},4000);
         app.ticker.add(function(tk){t+=tk.deltaTime;var w=app.screen.width,h=app.screen.height;
           progress();place();
           sweep.rotation=-.42;sweep.x=((t*1.9)%(w+700))-300+(px-.5)*120;sweep.y=h*.1;
