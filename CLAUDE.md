@@ -40,8 +40,13 @@ Vercel деплоит из неё (импорт проекта делается 
   показывает CSS-колоду (`live-px-ru-fpsguard.png`). Кадры сцены с живого адреса с этого мака
   снять нельзя, только rig или Playwright критика. Сторож считает по
   стенным часам с третьего кадра (после провала критика [ember29]: дельта тикера зажата
-  `maxElapsedMS` и на слабом железе растягивала «2 с» до десяти). Вес сверху на десктопе с WebGL:
-  200 984 (Pixi) + 42 814 (плита) байт по сети с Vercel, потолок спеки 250 КБ. `PIXI.Assets.load` в headless виснет,
+  `maxElapsedMS` и на слабом железе растягивала «2 с» до десяти). Вес сверху с WebGL по проводу с
+  Vercel: Pixi 201 845 + плита 27 446 + засечки 9 184 (+5 560 на RU); потолок 250 000 Б
+  десятичных зашит в `tools/check.py --live` (худшее из br и gzip). Сторож: окно замера
+  открывается с третьего кадра или через 700 мс после первого, что раньше. Rig несёт хеш
+  index (`rig-of-index`), `tools/check.py` сверяет, что rig собран из текущего index.
+  `import()` уходит после первой отрисовки (rAF + requestIdleCallback, таймаут 1200 мс), в
+  head при `html.pixi` стоит modulepreload с fetchpriority low. `PIXI.Assets.load` в headless виснет,
   поэтому картинки через `new Image()` + `Texture.from`.
 - **Типографика героя при живом Pixi (CDO [heather21], [cactus78]):** заголовок Noto Serif
   Display 600 урезанными подмножествами CDO `fonts/serif-en-exact.woff2` (9 КБ) и
