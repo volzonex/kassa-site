@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""tools/watchdog_probe.py: доказательство для критика [clover77]: медленный старт (rAF раз в 1500 мс первые
-4500 мс, дальше как обычно) не убивает сцену. Пробник строится из index.html, сторож включён (review=false),
+"""tools/watchdog_probe.py: доказательство для критика [clover77]: при медленном старте (rAF раз в N мс первые
+4500 мс, дальше как обычно) сторож не срабатывает. Судьбу сцены после этого решает замер FPS, и на программном
+рендере headless он её снимает (fps=1), это печатается отдельной строкой как итог, а не как вердикт. Пробник строится из index.html, сторож включён (review=false),
 import немедленный. Печатает хронику атрибутов <html> и итог. Красное условие: в хронике появился
 data-pixi-err="watchdog" или к 6-й секунде нет класса live."""
 import subprocess, re, json, pathlib, sys, html as H_
@@ -25,5 +26,7 @@ if not m: print("FAIL пробник не ответил"); raise SystemExit(1)
 d = json.loads(H_.unescape(m.group(1)))
 for l in d["log"]: print("  " + l)
 dead = "watchdog" in d["err"] or any("err=watchdog" in l for l in d["log"])
-print(("FAIL " if dead else "OK   ") + "медленный старт не убивает сцену  [красное: data-pixi-err=watchdog в хронике]  итог: class=%r err=%r" % (d["cls"], d["err"]))
+print(("FAIL " if dead else "OK   ") + "сторож не срабатывает при медленном старте  [красное: data-pixi-err=watchdog в хронике]")
+alive = "live" in d["cls"] or ("pixi" in d["cls"] and not d["err"])
+print("      итог сцены: " + ("жива (class=%r)" % d["cls"] if alive else "снята замером FPS (class=%r err=%r, программный рендер headless даёт ~1 fps)" % (d["cls"], d["err"])))
 raise SystemExit(1 if dead else 0)

@@ -411,8 +411,11 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
         var t=0,px=.5,py=.5,frames=0,first0=0,wall0=0,judged=false;
         addEventListener("pointermove",function(e){px=e.clientX/innerWidth;py=e.clientY/innerHeight},{passive:true});
         function teardown(why){try{app.ticker.stop();app.destroy(true,{children:true,texture:true})}catch(e){}bail(why||"fps")}
-        /* сторож по времени (критик [clover77], CDO [silver81]): отдельный счётчик кадров, который никто не обнуляет,
-           и только при видимой вкладке; скрытая вкладка не наказывается, отсчёт перевзводится, когда на страницу смотрят */
+        /* сторож по времени (критик [clover77], CDO [silver81], [beacon37]): отдельный счётчик кадров, который никто не
+           обнуляет, порог total<3 за 4 с и только при видимой вкладке; скрытая вкладка не наказывается, отсчёт
+           перевзводится, когда на страницу смотрят. Порог связан с тем, что статика прячется только после третьего
+           отрисованного кадра (html.live): пока это так, ожидание показывает ту же сцену без движения, а не пустоту.
+           Если статику начнут прятать раньше, порог и время пересматривать сразу (CDO [poplar36]). */
         var total=0;
         function arm(){setTimeout(function(){if(judged)return;if(total>=3)return;
           if(document.visibilityState!=="visible"){document.addEventListener("visibilitychange",function once(){if(document.visibilityState==="visible"){document.removeEventListener("visibilitychange",once);total=0;arm()}});return}
