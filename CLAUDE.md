@@ -52,8 +52,10 @@ Vercel деплоит из неё (импорт проекта делается 
 ## Проверки перед сдачей
 
 ```bash
+python3 tools/check.py --live      # текст без имён и цен, пары языков, ассеты, веса, живой адрес, эндпоинт формы
 bash review/shoot.sh 1440 900 d && bash review/shoot.sh 390 844 m   # кадры в оба языка
 ```
+`tools/`, `review/` и `CLAUDE.md` в `.vercelignore`, на прод не уезжают.
 `review/` в .gitignore. Кадры секций снимаются через `review/rig.html` (копия index
 со `<base>` и сдвигом документа `?sel=`/`?y=`), веер через `review/shot.html` (iframe,
 `?end=1`). Headless Chrome не даёт окно уже 500px, поэтому 390 всегда через
