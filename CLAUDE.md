@@ -40,14 +40,21 @@ Vercel деплоит из неё (импорт проекта делается 
 
 ## Где живёт
 
-- **Запасной боевой адрес (с 06.09):** `https://hq-live-production.up.railway.app/kassa/`
-  (со слэшем, иначе относительные пути уходят в корень). Заливка файлов: `PUT
-  https://hq-live-production.up.railway.app/kassa/<путь>` с `Authorization: Bearer
-  <KASSA_DEPLOY_SECRET>`, тело = сырые байты; секрет в письме CTO [topaz37] в архиве
-  почты craftsman, в репу не класть. После заливки сверять sha256 отданного index с репой.
-- **Основной адрес:** Vercel из репы `volzonex/kassa-site`, проект импортируется руками
-  в дашборде (Тахир). Домен по умолчанию `kassa-site.vercel.app`, og:url и canonical
-  ставить после подтверждения домена.
+- **Прод (с 06.09 16:46):** `https://kassa-site.vercel.app`, проект `takhir-llc/kassa-site`
+  связан с GitHub, пуш в `main` деплоит сам (CTO поднял с Air через Vercel CLI, ручной
+  импорт больше не нужен). Заголовки и кэш из `vercel.json`, `tools/`, `review/` и
+  `CLAUDE.md` не уезжают (`.vercelignore`). После пуша сверять sha256 отданного index с
+  репой: `curl -s https://kassa-site.vercel.app/ | shasum -a 256`.
+- **Запасной адрес:** `https://hq-live-production.up.railway.app/kassa/` (`/kassa` без
+  слэша даёт 301). Заливка: `PUT …/kassa/<путь>` с `Authorization: Bearer
+  <KASSA_DEPLOY_SECRET>`, тело = сырые байты; секрет в письме CTO [topaz37] в архиве почты
+  craftsman за 2026-09, в репу не класть. Прокси отдаёт без gzip и с no-store, это его
+  свойство, не дефект сборки.
+- **Домен:** пока только `kassa-site.vercel.app`, свой домен выбирает Тахир; og:url и
+  canonical ставить, когда решит.
+- **Стандарт Тахира с 06.09 (CTO [valley73]):** боевые анимации только Pixi.js, CSS-анимации
+  допустимы для демок. Эта сборка на CSS scroll-driven оставлена как рабочий fallback по
+  слову COO до спеки CDO с подтверждённым сроком.
 
 ## Проверки перед сдачей
 
