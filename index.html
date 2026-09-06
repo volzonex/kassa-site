@@ -11,7 +11,7 @@
 <meta property="og:title" content="КАССА: сайт и лендинг за 72 часа">
 <meta property="og:description" content="Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2322262B'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='34' fill='%23F4EFE7'%3EK%3C/text%3E%3Ccircle cx='50' cy='16' r='6' fill='%23D96A46'/%3E%3C/svg%3E">
-<script>(function(){try{var q=new URLSearchParams(location.search).get("lang"),s=null;try{s=localStorage.getItem("kassa-lang")}catch(e){}var n=((navigator.language||"").toLowerCase().indexOf("ru")===0)?"ru":"en";var l=(q==="ru"||q==="en")?q:((s==="ru"||s==="en")?s:n);var h=document.documentElement;h.setAttribute("data-lang",l);h.setAttribute("lang",l);h.className="js"}catch(e){}})();</script>
+<script>(function(){try{var q=new URLSearchParams(location.search).get("lang"),s=null;try{s=localStorage.getItem("kassa-lang")}catch(e){}var n=((navigator.language||"").toLowerCase().indexOf("ru")===0)?"ru":"en";var l=(q==="ru"||q==="en")?q:((s==="ru"||s==="en")?s:n);var h=document.documentElement;h.setAttribute("data-lang",l);h.setAttribute("lang",l);h.className="js";var rm=matchMedia("(prefers-reduced-motion: reduce)").matches,pc=document.createElement("canvas"),gl=!rm&&(pc.getContext("webgl2")||pc.getContext("webgl"));if(gl)h.classList.add("pixi")}catch(e){}})();</script>
 <link rel="preload" href="fonts/GolosText-700-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/GolosText-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -153,6 +153,26 @@ html.js .rv{opacity:0}
 html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0ms)}
 .grid4{perspective:900px}
 
+/* ---- Pixi-герой (спека CDO [sunset]): сцена в той же sticky, текст DOM поверх, CSS-колода остаётся фолбэком ---- */
+#scene{position:absolute;inset:0;z-index:0;display:none}
+#scene canvas{display:block;width:100%;height:100%}
+.grain{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;mix-blend-mode:overlay;display:none}
+.hd{position:relative;z-index:2}
+html.pixi #scene,html.pixi .grain{display:block}
+html.pixi .deck{display:none}
+html.pixi body,html.pixi .hero{background:#0A0B0D}
+html.pixi .top{background:#0A0B0D;color:#F2EFE9}
+html.pixi .top .lang button{color:#8A8781}
+html.pixi[data-lang="ru"] .top .lang [data-set="ru"],html.pixi[data-lang="en"] .top .lang [data-set="en"]{color:#F2EFE9;border-bottom-color:#C8A26A}
+html.pixi .hero .sticky{display:flex;flex-direction:column;justify-content:flex-end;padding:0 5vw 9vh;background:#0A0B0D;color:#F2EFE9}
+html.pixi .hd{max-width:720px}
+html.pixi h1{color:#F2EFE9}html.pixi h1 em{color:#C8A26A}html.pixi .sub{color:#C9C5BD}
+html.pixi .cta .btn{background:#F2EFE9;color:#0A0B0D;border-color:#F2EFE9}
+html.pixi .cta .btn.ghost{background:transparent;color:#F2EFE9;border-color:rgba(242,239,233,.32)}
+html.pixi .s72{border-top:0}
+@media (max-width:900px){html.pixi .hd::before{content:'';position:absolute;inset:-24px -22px -10px;background:linear-gradient(180deg,rgba(10,11,13,0) 0%,rgba(10,11,13,.86) 18%,rgba(10,11,13,.96) 100%);z-index:-1}}
+@media (max-width:640px){html.pixi .hero{min-height:auto}html.pixi .hero .sticky{position:relative;height:calc(100svh - 62px);min-height:540px;overflow:hidden;padding:0 5vw 6vh}}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .card{animation:none;transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}
@@ -183,6 +203,8 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
 </header>
 
 <section class="hero" id="top"><div class="sticky">
+  <div id="scene" aria-hidden="true"></div>
+  <svg class="grain" aria-hidden="true"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#g)" opacity=".16"/></svg>
   <div class="hd">
     <h1><span lang="ru">Сайт и лендинг за <em>72 часа.</em> Строю сам.</span><span lang="en">Websites and landing pages that ship in <em>72 hours.</em> I build them myself.</span></h1>
     <p class="sub"><span lang="ru">Я сам сажусь за макет, сам верстаю, сам сдаю, без агентства и без цепочки субподрядчиков между нами.</span><span lang="en">I design it myself, build it myself, deliver it myself. No agency and no chain of subcontractors between us.</span></p>
@@ -363,6 +385,76 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
     .catch(function(){msg.textContent=T[lang()].err})
     .then(function(){btn.disabled=false});
   });
+})();
+</script>
+<script>
+/* Pixi-герой по спеке CDO [sunset]. html.pixi ставится в head после проверки WebGL и reduced-motion;
+   здесь библиотека грузится динамическим import и только тогда. Любой сбой снимает класс, остаётся CSS-колода. */
+(function(){
+  var H=document.documentElement; if(!H.classList.contains("pixi"))return;
+  var hero=document.querySelector(".hero"),sticky=hero.querySelector(".sticky"),scene=document.getElementById("scene");
+  var forceQ=location.search.indexOf("end")>-1?1:null;
+  function bail(e){H.classList.remove("pixi");H.classList.add("nowebgl");scene.innerHTML="";if(e)H.setAttribute("data-pixi-err",String(e&&e.message||e).slice(0,200))}
+  function loadImg(u){return new Promise(function(res,rej){var im=new Image();im.decoding="async";im.onload=function(){res(im)};im.onerror=function(){rej(new Error("нет "+u))};im.src=u})}
+  function noiseTex(){var c=document.createElement("canvas");c.width=c.height=512;var x=c.getContext("2d");x.fillStyle="#808080";x.fillRect(0,0,512,512);
+    for(var i=0;i<26;i++){var r=60+Math.random()*150,gx=Math.random()*512,gy=Math.random()*512,g=x.createRadialGradient(gx,gy,0,gx,gy,r),v=Math.random()>.5?255:0;
+      g.addColorStop(0,"rgba("+v+","+v+","+v+",.55)");g.addColorStop(1,"rgba(128,128,128,0)");x.fillStyle=g;x.beginPath();x.arc(gx,gy,r,0,7);x.fill()}
+    return c}
+  import("./vendor/pixi.min.js").then(start).catch(function(e){bail(e)});
+  function start(PIXI){
+    var app=new PIXI.Application(),narrow0=innerWidth<900,dpr=Math.min(devicePixelRatio||1,narrow0?1.5:2);
+    return app.init({background:"#0A0B0D",antialias:true,resolution:dpr,autoDensity:true,resizeTo:sticky,preference:"webgl"}).then(function(){
+      scene.appendChild(app.canvas);
+      /* плита среды: комната, не работа */
+      var room=new PIXI.Container();app.stage.addChild(room);var roomSp=null;
+      var veil=new PIXI.Graphics();room.addChild(veil);
+      function fitRoom(){var w=app.screen.width,h=app.screen.height;
+        if(roomSp){var t=roomSp.texture,sc=Math.max(w/t.width,h/t.height)*1.06;roomSp.scale.set(sc);roomSp.x=w*.5;roomSp.y=h*.46}
+        veil.clear().rect(0,0,w,h).fill({color:0x0A0B0D,alpha:.42})}
+      fitRoom();
+      loadImg("img/room.webp").then(function(im){roomSp=new PIXI.Sprite(PIXI.Texture.from(im));roomSp.anchor.set(.5);room.addChildAt(roomSp,0);fitRoom()});
+      /* колода: те же кропы портфолио, что в проде, рамкой 52..86% высоты */
+      var files=["img/devago.webp","img/friendly.webp","img/aselhands.webp"];
+      return Promise.all(files.map(function(f){return loadImg(f).then(function(im){var src=PIXI.Texture.from(im).source,y=Math.round(src.height*.52),hh=Math.round(src.height*.34);
+        return new PIXI.Texture({source:src,frame:new PIXI.Rectangle(0,y,src.width,hh)})})})).then(function(tex){
+        var deck=new PIXI.Container();app.stage.addChild(deck);
+        var slabs=tex.map(function(t,i){var holder=new PIXI.Container(),shadow=new PIXI.Graphics(),sp=new PIXI.Sprite(t),edge=new PIXI.Graphics();
+          sp.anchor.set(.5);if(i>0)sp.tint=0xCFCAC2;holder.addChild(shadow,sp,edge);if(i>0)holder.filters=[new PIXI.BlurFilter({strength:i*0.9})];
+          holder.alpha=1-i*.06;deck.addChild(holder);return {holder:holder,sp:sp,edge:edge,shadow:shadow,i:i,bx:0,by:0}});
+        var dispSp=PIXI.Sprite.from(noiseTex());dispSp.texture.source.addressMode="repeat";dispSp.scale.set(1.4);app.stage.addChild(dispSp);dispSp.visible=false;
+        var disp=new PIXI.DisplacementFilter({sprite:dispSp,scale:26});deck.filters=[disp];
+        var sweep=new PIXI.Graphics();sweep.blendMode="add";app.stage.addChild(sweep);
+        function paintSweep(){var h=app.screen.height;sweep.clear();for(var k=0;k<26;k++){var a=.055*(1-k/26);sweep.rect(k*11,-h,11,h*3).fill({color:0xC8A26A,alpha:a*1.5})}}
+        var q=1;
+        function progress(){if(forceQ!==null){q=forceQ;return}var r=hero.getBoundingClientRect(),span=r.height-innerHeight;if(span<50){q=1;return}
+          var p=Math.max(0,Math.min(1,-r.top/span));q=Math.min(1,p/.5)}
+        function size(){var w=app.screen.width,narrow=w<900,base=narrow?w*.82:Math.min(w*.415,660);
+          slabs.forEach(function(s){var i=s.i,k=base*(1-i*.08),sc=k/s.sp.texture.width;s.sp.scale.set(sc);var sw=s.sp.texture.width*sc,sh=s.sp.texture.height*sc;
+            s.shadow.clear().roundRect(-sw/2+14,-sh/2+26,sw,sh,12).fill({color:0x000000,alpha:.75});
+            s.edge.clear().roundRect(-sw/2,-sh/2,sw,sh,12).stroke({width:1.2,color:0xC8A26A,alpha:.42-i*.08})})}
+        function place(){var w=app.screen.width,h=app.screen.height,narrow=w<900,m=.25+.75*q;
+          slabs.forEach(function(s){var i=s.i;s.bx=narrow?w*.52-i*14*m:w*.745-i*44*m;s.by=(narrow?h*.42:h*.50)-i*86*m})}
+        paintSweep();size();
+        app.renderer.on("resize",function(){fitRoom();paintSweep();size()});
+        var t=0,px=.5,py=.5,frames=0,elapsed=0,judged=false;
+        addEventListener("pointermove",function(e){px=e.clientX/innerWidth;py=e.clientY/innerHeight},{passive:true});
+        function teardown(){try{app.ticker.stop();app.destroy(true,{children:true,texture:true})}catch(e){}bail("fps")}
+        app.ticker.add(function(tk){t+=tk.deltaTime;var w=app.screen.width,h=app.screen.height;
+          progress();place();
+          sweep.rotation=-.42;sweep.x=((t*1.9)%(w+700))-300+(px-.5)*120;sweep.y=h*.1;
+          dispSp.x=(t*.5)%512;dispSp.y=(t*.32)%512;
+          if(roomSp){roomSp.x=w*.5+(px-.5)*26;roomSp.y=h*.46+(py-.5)*16}
+          disp.scale.x=disp.scale.y=26+((14+Math.sin(t/70)*6)-26)*q;
+          slabs.forEach(function(s){var i=s.i;s.holder.x=s.bx;s.holder.y=s.by+Math.sin(t/90+i)*5.4;
+            s.holder.rotation=(-9+i*2)*Math.PI/180+Math.sin(t/120+i*2)*.0048;s.holder.skew.x=(px-.5)*.02*(1-i*.15)});
+          /* замер первых двух секунд: ниже 40 снимаем displacement, ниже 28 снимаем канвас */
+          if(!judged){elapsed+=tk.deltaMS;frames++;if(elapsed>=2000){judged=true;var fps=frames*1000/elapsed;H.setAttribute("data-fps",Math.round(fps));
+            if(fps<28){teardown();return}if(fps<40){deck.filters=null}}}
+        });
+        if("IntersectionObserver" in window){new IntersectionObserver(function(es){if(es[0].isIntersecting)app.ticker.start();else app.ticker.stop()}).observe(hero)}
+      });
+    });
+  }
 })();
 </script>
 </body>

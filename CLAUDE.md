@@ -18,6 +18,22 @@ Vercel деплоит из неё (импорт проекта делается 
   не уходила за сцену. Мобила <=640: сцена статична, столбик с rotateX(10deg).
   Без поддержки scroll-driven (старый WebView) скрипт ведёт те же transform по
   скроллу сам (30 строк), GSAP не подключён: нечего качать ради fallback.
+- **Pixi-герой (спека CDO [sunset], 06.09).** Решение в `<head>`: нет reduced-motion и есть
+  WebGL-контекст, значит `html.pixi` до первой отрисовки (без вспышки светлого героя). Второй
+  скрипт внизу грузит `vendor/pixi.min.js` (ESM-сборка pixi.js 8.15.0, 200 КБ gzip) через
+  `import()` только при `html.pixi`. Сцена в той же sticky героя: `#scene` (канвас, z 0),
+  `.grain` (SVG feTurbulence, z 3), текст `.hd` (z 2). Слои снизу вверх: плита комнаты
+  `img/room.webp` (Higgsfield по смете f671, комната, не работа) с параллаксом от курсора,
+  вуаль `#0A0B0D` .42, три плиты кропов (рамка 52..86% высоты, тень, кромка латунью, блюр и
+  тинт дальних), световой проход blend add, DisplacementFilter с процедурной картой 512.
+  Прогресс от `getBoundingClientRect()` секции: 0 стопка (смещения x0.25, displacement 26),
+  0.5 и дальше разложено. На узких (<900) плиты по x `w*.52 - i*14`, по y `h*.42` (у стенда .70,
+  там текст перекрывал плиты). Страховка: любой сбой `import`/`init`/картинок снимает
+  `html.pixi` и ставит `html.nowebgl`, остаётся CSS-колода; первые 2 с меряется FPS (в
+  `html[data-fps]`): ниже 40 снимается displacement, ниже 28 канвас уничтожается;
+  IntersectionObserver останавливает ticker вне экрана; DPR `min(dpr,2)`, на узких 1.5.
+  `?end=1` форсирует разложенную позу для кадров. `PIXI.Assets.load` в headless виснет,
+  поэтому картинки через `new Image()` + `Texture.from`.
 - **Картинки.** `img/*.webp` 1280x800, кроп без названий компаний: devago это hero
   без верхней навигации, для трёх лендингов секция под hero (полоса цифр + следующая
   секция). Снимались из локальных исходников `сайты/<name>/index.html` со сдвигом
@@ -63,6 +79,9 @@ python3 tools/check.py --live      # текст без имён и цен, па�
 bash review/shoot.sh 1440 900 d && bash review/shoot.sh 390 844 m   # кадры в оба языка
 ```
 `tools/`, `review/` и `CLAUDE.md` в `.vercelignore`, на прод не уезжают.
+Pixi-герой: `bash review/shoot-pixi.sh desk` (стопка, веер, без WebGL через `--disable-3d-apis`,
+reduced-motion через `--force-prefers-reduced-motion`) и `bash review/shoot-pixi.sh mob` (390
+через iframe). Кадр с живого телефона в Telegram остаётся за Тахиром.
 `review/` в .gitignore. Кадры секций снимаются через `review/rig.html` (копия index
 со `<base>` и сдвигом документа `?sel=`/`?y=`), веер через `review/shot.html` (iframe,
 `?end=1`). Headless Chrome не даёт окно уже 500px, поэтому 390 всегда через

@@ -26,17 +26,17 @@ ok("из цифр только 72", digits == ["72"], str(digits))
 B = H[H.index("<body"):]
 ok("пар RU/EN поровну (в body)", B.count('lang="ru"') == B.count('lang="en"'), f'{B.count(chr(108)+"ang=%sru%s" % (chr(34),chr(34)))} ru / {B.count(chr(108)+"ang=%sen%s" % (chr(34),chr(34)))} en')
 # 3. ассеты на месте и все используются
-refs = set(re.findall(r'(?:src|href)=["\']((?:img|fonts)/[^"\']+)', H)) | set(re.findall(r'url\(((?:img|fonts)/[^)]+)\)', H))
+refs = set(re.findall(r'(?:src|href)=["\']((?:img|fonts|vendor)/[^"\']+)', H)) | set(re.findall(r'url\(((?:img|fonts|vendor)/[^)]+)\)', H)) | set(re.findall(r'(?:import|loadImg)\("((?:img|fonts|vendor)/[^"]+)"', H))
 missing = [r for r in refs if not (root / r).exists()]
 ok("все ссылки на img/ и fonts/ существуют", not missing, str(missing))
-files = {str(p.relative_to(root)) for p in list(root.glob("img/*")) + list(root.glob("fonts/*"))}
+files = {str(p.relative_to(root)) for p in list(root.glob("img/*")) + list(root.glob("fonts/*")) + list(root.glob("vendor/*"))}
 unused = sorted(files - refs)
 ok("лишних файлов в img/ и fonts/ нет", not unused, str(unused))
 big = [f for f in root.glob("img/*.webp") if f.stat().st_size > 150_000]
 ok("WebP <= 150 КБ", not big, str([b.name for b in big]))
 js = "".join(re.findall(r"<script>(.*?)</script>", H, re.S)).encode()
 ok("JS <= 60 КБ gzip", len(gzip.compress(js)) <= 60_000, f"{len(gzip.compress(js))} байт gzip")
-ok("внешних скриптов нет", not re.search(r'<script[^>]+src=', H))
+ok("внешних скриптов нет", not re.search(r'<script[^>]+src=', H) and "cdn." not in H)
 ok("шапка без sticky и blur", not re.search(r"\.top\{[^}]*(sticky|fixed|backdrop)", H))
 ok("t.me Тахира стоит", 'var TG="https://t.me/hellotakhir"' in H)
 ok("транспорт формы стоит", "hq-live-production.up.railway.app/kassa/lead" in H)
@@ -44,7 +44,7 @@ ok("тексты успеха формы", "Получил. Отвечаю са�
 if "--live" in sys.argv:
     def curl(*a):
         return subprocess.run(["curl", "-s", "--max-time", "20", *a], capture_output=True, text=True).stdout
-    live = "https://hq-live-production.up.railway.app/kassa/"
+    live = os.environ.get("KASSA_LIVE", "https://hq-live-production.up.railway.app/kassa/")
     got = subprocess.run(["curl", "-s", "--max-time", "20", live], capture_output=True).stdout
     ok("живой index = репа (sha256)", hashlib.sha256(got).hexdigest() == hashlib.sha256(open("index.html", "rb").read()).hexdigest())
     for r in sorted(refs):
