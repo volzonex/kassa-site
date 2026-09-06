@@ -66,5 +66,18 @@ if "--live" in sys.argv:
     lead = "https://hq-live-production.up.railway.app/kassa/lead"
     ok("форма: preflight 204", curl("-o", "/dev/null", "-w", "%{http_code}", "-X", "OPTIONS", "-H", "Origin: https://kassa-site.vercel.app", "-H", "Access-Control-Request-Method: POST", lead) == "204")
     ok("форма: пустое тело 400", curl("-o", "/dev/null", "-w", "%{http_code}", "-X", "POST", "-H", "Content-Type: application/json", "-d", "{}", lead) == "400")
+    # потолок прироста героя при живом Pixi: 250 000 Б десятичных по проводу (CDO [nimbus91]); берём худшее из br и gzip
+    HERO_CEILING = 250000
+    def wire(path):
+        return max(int(curl("-o", "/dev/null", "-H", "Accept-Encoding: " + enc, "-w", "%{size_download}", live + path) or 0) for enc in ("br", "gzip"))
+    base = wire("vendor/pixi.min.js") + wire("img/room.webp") + wire("fonts/serif-en-exact.woff2")
+    ru = base + wire("fonts/serif-ru-exact.woff2")
+    ok("прирост героя RU <= %d Б" % HERO_CEILING, ru <= HERO_CEILING, "RU %d Б, EN %d Б" % (ru, base))
+    ok("прирост героя EN <= %d Б" % HERO_CEILING, base <= HERO_CEILING, "EN %d Б" % base)
+# rig порождён из текущего index (после выноса ?end в rig он единственный источник кадров сцены)
+rig = root / "review" / "rig.html"
+if rig.exists():
+    m = re.search(r"rig-of-index:([0-9a-f]{16})", rig.read_text(encoding="utf-8"))
+    ok("review/rig.html собран из текущего index", bool(m) and m.group(1) == hashlib.sha256(open("index.html","rb").read()).hexdigest()[:16], "пересобери: python3 review/mkrig.py")
 print("\nИТОГ:", "КРАСНОЕ " + str(fails) if fails else "всё зелёное")
 sys.exit(1 if fails else 0)
