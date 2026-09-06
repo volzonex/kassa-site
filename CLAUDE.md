@@ -62,4 +62,8 @@ bash review/shoot.sh 1440 900 d && bash review/shoot.sh 390 844 m   # кадры
 iframe (`shot.html` грузит `rig.html` внутрь, сдвиг делает сам rig, IntersectionObserver
 так срабатывает; скролл iframe снаружи его не будит). В iframe rAF под virtual-time
 не идёт, цифра 72 на мобильных кадрах может стоять «0», это артефакт рига. Грепом: ноль имён клиентов и ноль цен в видимом тексте, длинных
-тире нет.
+тире нет. Запасной путь колоды (старый WebView) проверяется копией рига с
+`window.CSS={supports:()=>false}` перед скриптом и `.card{animation:none!important}`:
+`shot.html?rig=rig-nosda.html&y=300` должен дать полувеер только от скрипта
+(`review/d-ru-fan-jsonly-300.png`, проверено 06.09). Копия кадров приёмки для CDO
+лежит в `warroom/kassa/review/` (у CDO нет дерева `сайты/`).
