@@ -1,0 +1,5 @@
+.wikimoth/
+.DS_Store
+review/
+.vercel
+.env*

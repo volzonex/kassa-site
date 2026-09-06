@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>КАССА: сайт и лендинг за 72 часа</title>
+<meta name="description" content="Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены. Лендинг за 72 часа.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F4EFE7">
+<meta property="og:type" content="website">
+<meta property="og:title" content="КАССА: сайт и лендинг за 72 часа">
+<meta property="og:description" content="Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2322262B'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='34' fill='%23F4EFE7'%3EK%3C/text%3E%3Ccircle cx='50' cy='16' r='6' fill='%23D96A46'/%3E%3C/svg%3E">
+<script>(function(){try{var q=new URLSearchParams(location.search).get("lang"),s=null;try{s=localStorage.getItem("kassa-lang")}catch(e){}var n=((navigator.language||"").toLowerCase().indexOf("ru")===0)?"ru":"en";var l=(q==="ru"||q==="en")?q:((s==="ru"||s==="en")?s:n);var h=document.documentElement;h.setAttribute("data-lang",l);h.setAttribute("lang",l);h.className="js"}catch(e){}})();</script>
+<link rel="preload" href="fonts/GolosText-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/GolosText-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ---- шрифты: локальные, Golos Text 400/700 на всё, JetBrains Mono 400 на служебное ---- */
+@font-face{font-family:'Golos';font-weight:400;font-display:swap;src:url(fonts/GolosText-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Golos';font-weight:400;font-display:swap;src:url(fonts/GolosText-400-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Golos';font-weight:700;font-display:swap;src:url(fonts/GolosText-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Golos';font-weight:700;font-display:swap;src:url(fonts/GolosText-700-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Mono';font-weight:400;font-display:swap;src:url(fonts/JetBrainsMono-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Mono';font-weight:400;font-display:swap;src:url(fonts/JetBrainsMono-400-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--paper:#F4EFE7;--ink:#22262B;--terra:#B4462A;--terra2:#D96A46;--mute:#6B6A66;--line:#DCD5C9;--mono:'Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+html{scroll-behavior:smooth;background:var(--paper);color-scheme:light}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.5 'Golos',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+/* оба языка в DOM, показ по data-lang на html */
+html[data-lang="en"] [lang="ru"],html[data-lang="ru"] [lang="en"]{display:none!important}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+/* ---- шапка: статичная, без sticky и blur, везде ---- */
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+.wm{font-family:'Golos';font-weight:700;font-size:18px;letter-spacing:.02em;text-decoration:none}
+.lang{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+.lang button{font:inherit;letter-spacing:inherit;background:none;border:0;color:var(--mute);cursor:pointer;padding:4px 6px 2px;border-bottom:2px solid transparent}
+.lang .sep{color:var(--line)}
+html[data-lang="ru"] .lang [data-set="ru"],html[data-lang="en"] .lang [data-set="en"]{color:var(--ink);border-bottom-color:var(--terra)}
+
+/* ---- hero: текст + колода (стенд CDO, дословно) ---- */
+.hero{position:relative;min-height:170vh}
+.hero .sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;grid-template-rows:auto 1fr;padding:2vh 5vw 0}
+h1{font-weight:700;font-size:clamp(38px,6.2vw,96px);line-height:1.02;letter-spacing:-.025em;max-width:14ch}
+html[data-lang="en"] h1{font-size:clamp(34px,4.8vw,72px);max-width:17ch}
+h1 em{font-style:normal;color:var(--terra)}
+.sub{margin-top:14px;max-width:46ch;color:var(--mute);font-size:clamp(15px,1.3vw,19px)}
+.cta{display:inline-flex;flex-wrap:wrap;gap:14px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;font-weight:700;font-size:15px;padding:14px 22px;border-radius:12px;background:var(--ink);color:var(--paper);text-decoration:none;border:1.5px solid var(--ink);cursor:pointer;font-family:inherit;line-height:1.2;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.sm{padding:11px 18px;font-size:14px}
+/* колода: 4 карты-сайта в перспективе, раскладываются по скроллу */
+.deck{position:relative;perspective:1400px;perspective-origin:50% 30%;height:100%;margin-top:2vh;--cw:min(62vw,760px,calc((100vh - 470px) * 1.6))}
+.card{position:absolute;left:50%;top:6%;width:var(--cw);aspect-ratio:16/10;margin-left:calc(var(--cw) / -2);
+  border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -30px rgba(34,38,43,.45),0 0 0 1px rgba(34,38,43,.08);
+  transform-style:preserve-3d;will-change:transform;
+  /* стартовое положение: стопка, лёгкий наклон назад */
+  transform:translate3d(0,0,0) rotateX(14deg) rotateY(0) translateZ(calc(var(--i) * -40px)) translateY(calc(var(--i) * 14px));
+  animation:fan linear both;animation-timeline:scroll(root);animation-range:0 70vh}
+.card img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.card .tag{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;background:rgba(34,38,43,.86);color:var(--paper);padding:6px 10px;border-radius:8px}
+/* конечные позы: веер, каждая карта своя (нарисованы руками, не формула) */
+.c1{--i:0;--rx:6deg;--ry:-16deg;--tx:-46%;--ty:6%;--tz:60px}
+.c2{--i:1;--rx:8deg;--ry:-5deg;--tx:-15%;--ty:-2%;--tz:20px}
+.c3{--i:2;--rx:8deg;--ry:6deg;--tx:16%;--ty:-2%;--tz:-20px}
+.c4{--i:3;--rx:6deg;--ry:17deg;--tx:47%;--ty:6%;--tz:-60px}
+@keyframes fan{to{transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}}
+/* без поддержки scroll-driven: скрипт ниже ведёт те же transform по скроллу, а без JS стоит веер */
+@supports not (animation-timeline:scroll()){.card{animation:none;transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}}
+body.end .card{animation:none;transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}
+/* мобила: колода в столбик с лёгким наклоном, без веера в стороны */
+@media (max-width:640px){.hero{min-height:auto}.hero .sticky{position:static;height:auto;display:block;padding-bottom:8vh;overflow:visible}
+  .deck{perspective:900px;height:auto;margin-top:26px}
+  .card{position:relative;left:0;margin:0 0 -18% 0;width:100%;animation:none;transform:rotateX(10deg) translateZ(0)}
+  .c2{transform:rotateX(10deg) translateY(-6%)}.c3{transform:rotateX(10deg) translateY(-12%)}.c4{transform:rotateX(10deg) translateY(-18%)}
+  .card:last-child{margin-bottom:0}}
+
+/* ---- секции ---- */
+.sec{padding:14vh 5vw;border-top:1px solid var(--line)}
+.wrap{max-width:1200px;margin:0 auto}
+.two{display:grid;grid-template-columns:1fr 1.2fr;gap:6vw;align-items:start}
+h2{font-weight:700;font-size:clamp(28px,3.6vw,52px);line-height:1.08;letter-spacing:-.02em;max-width:22ch}
+.k-tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--mute)}
+.lead{font-size:clamp(18px,1.6vw,24px);line-height:1.45;max-width:38ch}
+/* 72 */
+.num{font-weight:700;font-size:clamp(80px,14vw,200px);line-height:.9;letter-spacing:-.04em;color:var(--terra);font-variant-numeric:tabular-nums}
+.note{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--mute);margin-top:10px}
+.who p{font-size:clamp(20px,2vw,30px);line-height:1.35;letter-spacing:-.01em;max-width:30ch}
+/* что делаю */
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr .8fr;gap:16px;margin-top:40px}
+.kard{border:1px solid var(--line);border-radius:14px;padding:22px 22px 24px;display:flex;flex-direction:column;gap:14px;min-height:220px;background:#FBF8F2;text-decoration:none}
+.kard p{font-size:17px;line-height:1.45}
+.kard p::first-letter{text-transform:uppercase}
+.kard .k-tag{color:var(--terra)}
+.kard.pronto{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.kard.pronto .mark{width:44px;height:44px;border-radius:10px;background:var(--paper);display:grid;place-items:center}
+.kard.pronto .mark img{width:36px;height:36px}
+.kard.pronto .k-tag{color:var(--terra2);margin-top:auto}
+/* оффер */
+.checks{list-style:none;display:grid;gap:16px;font-size:clamp(17px,1.5vw,21px);line-height:1.4}
+.checks li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.ck{width:28px;height:28px;margin-top:1px}
+.ck path{fill:none;stroke:var(--terra);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:26;stroke-dashoffset:26;transition:stroke-dashoffset .4s cubic-bezier(.2,.7,.2,1)}
+.checks.in li:nth-child(1) .ck path{stroke-dashoffset:0;transition-delay:0ms}
+.checks.in li:nth-child(2) .ck path{stroke-dashoffset:0;transition-delay:80ms}
+.checks.in li:nth-child(3) .ck path{stroke-dashoffset:0;transition-delay:160ms}
+.guar{margin-top:26px;display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--terra);border:1.5px solid var(--terra);border-radius:8px;padding:9px 12px}
+.price{margin-top:22px;color:var(--mute);max-width:52ch}
+.offer .btn{margin-top:22px}
+/* портфолио */
+.works{display:grid;gap:56px;margin-top:40px}
+.work{display:grid;grid-template-columns:1.25fr 1fr;gap:5vw;align-items:center}
+.work:nth-child(even) .scr{order:2}
+.scr{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(34,38,43,.12);aspect-ratio:16/10;transform:perspective(1200px) rotateY(-6deg);transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.work:nth-child(even) .scr{transform:perspective(1200px) rotateY(6deg)}
+.work.in .scr,.work:nth-child(even).in .scr{transform:perspective(1200px) rotateY(0)}
+.scr img{width:100%;height:100%;object-fit:cover;object-position:top}
+.wt{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.wt p{font-size:clamp(18px,1.6vw,24px);line-height:1.35;max-width:26ch}
+.wt p::first-letter{text-transform:uppercase}
+/* форма */
+form{display:grid;gap:18px}
+label{display:grid;gap:8px}
+.lb{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--mute)}
+input[type=text],textarea{font:inherit;color:var(--ink);background:#FBF8F2;border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%;outline:none}
+input[type=text]:focus,textarea:focus{border-color:var(--ink)}
+textarea{resize:vertical;min-height:110px}
+fieldset{border:0;display:grid;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;display:inline-flex;cursor:pointer}
+.chip input{position:absolute;opacity:0;width:0;height:0}
+.chip span{padding:9px 14px;border-radius:999px;border:1.5px solid var(--line);font-size:15px;line-height:1.2;transition:background .2s,border-color .2s,color .2s}
+.chip input:checked+span,.chip input:checked+span+span{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip input:focus-visible+span,.chip input:focus-visible+span+span{border-color:var(--terra)}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:4px}
+.fmsg{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--terra)}
+.btn[disabled]{opacity:.6;cursor:default}
+.done{border:1px solid var(--line);border-radius:14px;padding:40px 28px;background:#FBF8F2}
+.done p{font-weight:700;font-size:clamp(24px,2.6vw,40px);letter-spacing:-.02em;line-height:1.1}
+/* подвал */
+.foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:32px 5vw 40px;border-top:1px solid var(--line);font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+.foot .dot{color:var(--line)}
+.foot .pr{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:'Golos';font-weight:700;letter-spacing:.02em}
+.foot .pr img{width:18px;height:18px}
+
+/* ---- вход по кадру: только transform и opacity, не длиннее 400 мс ---- */
+html.js .rv{opacity:0}
+@keyframes rise{from{opacity:0;transform:translateY(40px) rotateX(10deg)}to{opacity:1;transform:none}}
+html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0ms)}
+.grid4{perspective:900px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .card{animation:none;transform:translate3d(var(--tx),var(--ty),0) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz))}
+  html.js .rv{opacity:1}html.js .rv.in{animation:none}
+  .scr,.work:nth-child(even) .scr{transform:none;transition:none}
+  .ck path{stroke-dashoffset:0;transition:none}
+  .btn{transition:none}}
+
+@media (max-width:900px){
+  .two{grid-template-columns:1fr;gap:32px}
+  .grid4{grid-template-columns:1fr 1fr}
+  .work,.work:nth-child(even){grid-template-columns:1fr;gap:18px}
+  .work:nth-child(even) .scr{order:0}
+  .sec{padding:10vh 5vw}}
+@media (max-width:640px){
+  .grid4{grid-template-columns:1fr}
+  .kard{min-height:0}
+  .top{padding:18px 5vw}
+  .hero .sticky{padding-top:1vh}
+  .cta .btn{width:100%;justify-content:center}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="wm" href="#top"><span lang="ru">КАССА</span><span lang="en">KASSA</span></a>
+  <nav class="lang" aria-label="RU / EN"><button type="button" data-set="ru">RU</button><span class="sep">|</span><button type="button" data-set="en">EN</button></nav>
+</header>
+
+<section class="hero" id="top"><div class="sticky">
+  <div class="hd">
+    <h1><span lang="ru">Сайт и лендинг за <em>72 часа.</em> Строю сам.</span><span lang="en">Websites and landing pages that ship in <em>72 hours.</em> I build them myself.</span></h1>
+    <p class="sub"><span lang="ru">Я сам сажусь за макет, сам верстаю, сам сдаю, без агентства и без цепочки субподрядчиков между нами.</span><span lang="en">I design it myself, build it myself, deliver it myself. No agency and no chain of subcontractors between us.</span></p>
+    <div class="cta">
+      <a class="btn tg" href="#form"><span lang="ru">Написать в телеграм</span><span lang="en">Message me on Telegram</span></a>
+      <a class="btn ghost" href="#portfolio"><span lang="ru">Смотреть работы</span><span lang="en">See the work</span></a>
+    </div>
+  </div>
+  <div class="deck">
+    <a class="card c4" href="https://friendly-lounge-site.vercel.app/" target="_blank" rel="noopener"><img src="img/friendly.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"><span class="tag"><span lang="ru">ЛЕНДИНГ · БРУТАЛИЗМ</span><span lang="en">LANDING · BRUTALIST</span></span></a>
+    <a class="card c3" href="https://easy-lounge-site.vercel.app/" target="_blank" rel="noopener"><img src="img/easy.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"><span class="tag"><span lang="ru">ЛЕНДИНГ · ГРАФИТ И ЗОЛОТО</span><span lang="en">LANDING · GRAPHITE AND GOLD</span></span></a>
+    <a class="card c2" href="https://aselhands-site.vercel.app/" target="_blank" rel="noopener"><img src="img/aselhands.webp" width="1280" height="800" alt="" decoding="async"><span class="tag"><span lang="ru">ЛЕНДИНГ · ТЁПЛЫЙ НЮД</span><span lang="en">LANDING · WARM MINIMAL</span></span></a>
+    <a class="card c1" href="https://devago-ceiling-site.vercel.app/" target="_blank" rel="noopener"><img src="img/devago.webp" width="1280" height="800" alt="" fetchpriority="high" decoding="async"><span class="tag"><span lang="ru">САЙТ · В ПРОДЕ, ОПЛАЧЕН</span><span lang="en">SITE · LIVE, PAID</span></span></a>
+  </div>
+</div></section>
+
+<section class="sec s72"><div class="wrap two">
+  <div>
+    <div class="num" id="num">72</div>
+    <p class="note"><span lang="ru">ЧАСА НА ЛЕНДИНГ · РЕАЛЬНЫЙ СРОК СБОРКИ</span><span lang="en">HOURS PER LANDING PAGE · THE ACTUAL BUILD TIME</span></p>
+  </div>
+  <div class="who">
+    <p lang="ru">Я строю сайты и лендинги для бизнеса. Черновик собираю с ИИ-агентом, а не руками с нуля неделю. 72 часа на лендинг - реальный срок сборки, который я держу, а цифру для страницы не подбирал.</p>
+    <p lang="en">I build websites and landing pages for businesses. The first draft comes together with an AI agent instead of a week of typing from scratch. Seventy-two hours is the actual build time I hold myself to, not a number I picked for the page.</p>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2><span lang="ru">Что делаю</span><span lang="en">What I build</span></h2>
+  <div class="grid4">
+    <div class="kard rv" style="--d:0ms"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · 72 ЧАСА</span><span lang="en">LANDING PAGE · 72 HOURS</span></span><p lang="ru">лендинг под одну задачу (событие, акция, запуск), 72 часа</p><p lang="en">a landing page for one specific thing (an event, a launch, an offer), 72 hours</p></div>
+    <div class="kard rv" style="--d:80ms"><span class="k-tag"><span lang="ru">САЙТ</span><span lang="en">WEBSITE</span></span><p lang="ru">сайт-визитка для бизнеса, срок зависит от объёма</p><p lang="en">a full business website, timeline depends on scope</p></div>
+    <div class="kard rv" style="--d:160ms"><span class="k-tag"><span lang="ru">СОПРОВОЖДЕНИЕ</span><span lang="en">UPKEEP</span></span><p lang="ru">сопровождение после запуска: правки, обновления, обслуживание</p><p lang="en">upkeep after launch: edits, updates, maintenance</p></div>
+    <a class="kard pronto rv" style="--d:240ms" href="#form" data-kind="bot"><span class="mark"><img src="img/pronto.svg" width="36" height="36" alt="Pronto"></span><p lang="ru">Ещё умею собирать AI-ботов, которые отвечают клиентам и ведут заявку. Это отдельный продукт со своим домом, Pronto.</p><p lang="en">I also build AI bots that answer customers and capture leads. That's a separate product with its own home, Pronto.</p><span class="k-tag">Pronto</span></a>
+  </div>
+</div></section>
+
+<section class="sec offer"><div class="wrap two">
+  <div><h2><span lang="ru">Что получаешь</span><span lang="en">What you get</span></h2></div>
+  <div>
+    <ul class="checks rv">
+      <li><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span lang="ru">сайт на проде, а не макет в Figma</span><span lang="en">a live site, not a Figma mockup</span></li>
+      <li><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span lang="ru">правки до запуска, а не после: черновик доходит до твоего вкуса, прежде чем уйдёт в интернет</span><span lang="en">changes before launch, not after, so the draft reaches your taste before it goes out to the internet</span></li>
+      <li><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span lang="ru">домен, хостинг и форма заявки, уже настроены</span><span lang="en">domain, hosting, and a working contact form, already set up</span></li>
+    </ul>
+    <p class="guar"><span lang="ru">ГАРАНТИЯ · ПРАВКИ ДО ЗАПУСКА, А НЕ ПОСЛЕ</span><span lang="en">GUARANTEE · CHANGES BEFORE LAUNCH, NOT AFTER</span></p>
+    <p class="price" lang="ru">Цену не пишу здесь, зависит от объёма и срочности. Пишешь мне в телеграм, называю цифру за один разговор, без цикла коммерческих предложений.</p>
+    <p class="price" lang="en">I don't put a price here, it depends on scope and how fast you need it. Message me on Telegram and I'll give you a number in one conversation, no back-and-forth of proposals.</p>
+    <a class="btn tg" href="#form"><span lang="ru">Назвать цифру за один разговор</span><span lang="en">Get a number in one conversation</span></a>
+  </div>
+</div></section>
+
+<section class="sec" id="portfolio"><div class="wrap">
+  <h2><span lang="ru">Что уже построено</span><span lang="en">What's already built</span></h2>
+  <div class="works">
+    <article class="work rv">
+      <div class="scr"><img src="img/devago.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="wt"><span class="k-tag"><span lang="ru">САЙТ · В ПРОДЕ, ОПЛАЧЕН</span><span lang="en">SITE · LIVE, PAID</span></span><p lang="ru">сайт производственной компании, потолочные системы, в проде, оплачен клиентом</p><p lang="en">a manufacturing company's site, ceiling systems, live and paid for</p><a class="btn ghost sm" href="https://devago-ceiling-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
+    </article>
+    <article class="work rv">
+      <div class="scr"><img src="img/aselhands.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="wt"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · ТЁПЛЫЙ НЮД</span><span lang="en">LANDING · WARM MINIMAL</span></span><p lang="ru">лендинг в тёплой нюдовой гамме</p><p lang="en">a landing page in warm, minimal tones</p><a class="btn ghost sm" href="https://aselhands-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
+    </article>
+    <article class="work rv">
+      <div class="scr"><img src="img/easy.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="wt"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · ГРАФИТ И ЗОЛОТО</span><span lang="en">LANDING · GRAPHITE AND GOLD</span></span><p lang="ru">лендинг лаунжа, тёмный графит и золото</p><p lang="en">a lounge landing page, dark graphite and gold</p><a class="btn ghost sm" href="https://easy-lounge-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
+    </article>
+    <article class="work rv">
+      <div class="scr"><img src="img/friendly.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div>
+      <div class="wt"><span class="k-tag"><span lang="ru">ЛЕНДИНГ · БРУТАЛИЗМ</span><span lang="en">LANDING · BRUTALIST</span></span><p lang="ru">лендинг в стиле брутализм</p><p lang="en">a landing page in raw brutalist style</p><a class="btn ghost sm" href="https://friendly-lounge-site.vercel.app/" target="_blank" rel="noopener"><span lang="ru">Открыть</span><span lang="en">Open</span></a></div>
+    </article>
+  </div>
+</div></section>
+
+<section class="sec" id="form"><div class="wrap two">
+  <div>
+    <h2><span lang="ru">Расскажи, что строишь: лендинг под запуск, сайт под бизнес или бота.</span><span lang="en">Tell me what you're building: a landing page for a launch, a site for your business, or a bot.</span></h2>
+    <p class="lead" style="margin-top:18px"><span lang="ru">Отвечаю сам.</span><span lang="en">I answer myself.</span></p>
+  </div>
+  <div>
+    <form id="lead" novalidate>
+      <label><span class="lb"><span lang="ru">ИМЯ</span><span lang="en">NAME</span></span><input name="name" type="text" autocomplete="name" required></label>
+      <label><span class="lb"><span lang="ru">ТЕЛЕГРАМ ИЛИ ТЕЛЕФОН</span><span lang="en">TELEGRAM OR PHONE</span></span><input name="contact" type="text" autocomplete="tel" required></label>
+      <fieldset>
+        <legend class="lb"><span lang="ru">ЧТО СТРОИШЬ</span><span lang="en">WHAT ARE YOU BUILDING</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="kind" value="landing"><span lang="ru">лендинг</span><span lang="en">landing page</span></label>
+          <label class="chip"><input type="radio" name="kind" value="site"><span lang="ru">сайт</span><span lang="en">website</span></label>
+          <label class="chip"><input type="radio" name="kind" value="bot"><span lang="ru">бот</span><span lang="en">bot</span></label>
+        </div>
+      </fieldset>
+      <label><span class="lb"><span lang="ru">СООБЩЕНИЕ</span><span lang="en">MESSAGE</span></span><textarea name="message" rows="4"></textarea></label>
+      <input class="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="frow"><button class="btn" type="submit"><span lang="ru">Отправить</span><span lang="en">Send</span></button><span class="fmsg" id="fmsg" role="status" aria-live="polite"></span></div>
+    </form>
+    <div class="done" id="done" hidden><p lang="ru">Получил. Отвечаю сам.</p><p lang="en">Got it. I reply myself.</p></div>
+  </div>
+</div></section>
+
+<footer class="foot">
+  <span class="wm"><span lang="ru">КАССА</span><span lang="en">KASSA</span></span>
+  <span class="dot">·</span>
+  <a class="pr" href="#form" data-kind="bot"><img src="img/pronto.svg" width="18" height="18" alt="">Pronto</a>
+  <span class="dot">·</span>
+  <nav class="lang" aria-label="RU / EN"><button type="button" data-set="ru">RU</button><span class="sep">|</span><button type="button" data-set="en">EN</button></nav>
+</footer>
+
+<script>
+(function(){
+  /* t.me Тахира ставит CTO; пока адреса нет, кнопки телеграма ведут на форму ниже */
+  var TG="";
+  var h=document.documentElement, RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var META={ru:["КАССА: сайт и лендинг за 72 часа","Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены. Лендинг за 72 часа."],
+            en:["KASSA: websites and landing pages in 72 hours","I build it myself: a live site, changes before launch, domain and hosting set up. A landing page in 72 hours."]};
+  var T={ru:{need:"НУЖНЫ ИМЯ И КОНТАКТ",err:"НЕ ОТПРАВИЛОСЬ. ПОПРОБУЙ ЕЩЁ РАЗ ЧЕРЕЗ МИНУТУ"},
+         en:{need:"NAME AND CONTACT ARE REQUIRED",err:"DIDN'T GO THROUGH. TRY AGAIN IN A MINUTE"}};
+  function lang(){return h.getAttribute("data-lang")==="en"?"en":"ru"}
+  function setLang(l,push){
+    h.setAttribute("data-lang",l);h.setAttribute("lang",l);
+    try{localStorage.setItem("kassa-lang",l)}catch(e){}
+    document.title=META[l][0];var m=document.querySelector('meta[name="description"]');if(m)m.content=META[l][1];
+    if(push){try{var u=new URL(location.href);u.searchParams.set("lang",l);history.replaceState(null,"",u)}catch(e){}}
+  }
+  setLang(lang(),false);
+  document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){setLang(b.getAttribute("data-set"),true)})});
+  if(TG){document.querySelectorAll("a.tg").forEach(function(a){a.href=TG;a.target="_blank";a.rel="noopener"})}
+  if(location.search.indexOf("end")>-1)document.body.classList.add("end");
+
+  /* чипы формы из ссылок «бот -> Pronto» */
+  document.querySelectorAll("[data-kind]").forEach(function(a){a.addEventListener("click",function(){
+    var r=document.querySelector('input[name="kind"][value="'+a.getAttribute("data-kind")+'"]');if(r)r.checked=true})});
+
+  /* вход по кадру: один раз, класс in */
+  var rv=document.querySelectorAll(".rv");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.18});
+    rv.forEach(function(el){io.observe(el)});
+  }else{rv.forEach(function(el){el.classList.add("in")})}
+
+  /* 72: набегает 0 -> 72 за 700 мс, один раз */
+  var num=document.getElementById("num");
+  if(num&&!RM&&"IntersectionObserver" in window){
+    num.textContent="0";
+    var nio=new IntersectionObserver(function(es){
+      if(!es[0].isIntersecting)return;nio.disconnect();
+      var t0=performance.now();
+      (function f(t){var p=Math.min(1,(t-t0)/700),e=1-Math.pow(1-p,3);num.textContent=Math.round(72*e);if(p<1)requestAnimationFrame(f)})(t0);
+    },{threshold:.5});
+    nio.observe(num);
+  }
+
+  /* колода без scroll-driven animations (старый WebView): те же transform по скроллу, только transform */
+  var sda=window.CSS&&CSS.supports&&CSS.supports("animation-timeline","scroll()");
+  if(!sda&&!RM&&innerWidth>640){
+    var cards=[].slice.call(document.querySelectorAll(".card")).map(function(c){
+      var cs=getComputedStyle(c),v=function(n){return parseFloat(cs.getPropertyValue(n))||0};
+      return {el:c,i:v("--i"),rx:v("--rx"),ry:v("--ry"),tx:v("--tx"),ty:v("--ty"),tz:v("--tz")};
+    });
+    var tick=false;
+    function paint(){tick=false;var p=Math.max(0,Math.min(1,scrollY/(innerHeight*.7)));
+      cards.forEach(function(c){c.el.style.transform="translate3d("+(p*c.tx)+"%,"+(p*c.ty)+"%,0) translateY("+((1-p)*c.i*14)+"px) rotateX("+(14+(c.rx-14)*p)+"deg) rotateY("+(c.ry*p)+"deg) translateZ("+(-40*c.i+(c.tz+40*c.i)*p)+"px)"})}
+    addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(paint)}},{passive:true});
+    paint();
+  }
+
+  /* форма: уходит на /api/lead, состояние на месте */
+  var f=document.getElementById("lead"),msg=document.getElementById("fmsg"),done=document.getElementById("done");
+  if(f)f.addEventListener("submit",function(ev){
+    ev.preventDefault();
+    var d=new FormData(f);if(d.get("website"))return;
+    var name=(d.get("name")||"").trim(),contact=(d.get("contact")||"").trim();
+    if(!name||!contact){msg.textContent=T[lang()].need;(name?f.contact:f.name).focus();return}
+    var btn=f.querySelector("button");btn.disabled=true;msg.textContent="";
+    fetch("/api/lead",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name:name,contact:contact,kind:d.get("kind")||"",message:(d.get("message")||"").trim(),lang:lang(),page:location.href})})
+    .then(function(r){if(!r.ok)throw new Error(r.status);f.hidden=true;done.hidden=false})
+    .catch(function(){msg.textContent=T[lang()].err})
+    .then(function(){btn.disabled=false});
+  });
+})();
+</script>
+</body>
+</html>
