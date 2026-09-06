@@ -66,14 +66,36 @@ if "--live" in sys.argv:
     lead = "https://hq-live-production.up.railway.app/kassa/lead"
     ok("форма: preflight 204", curl("-o", "/dev/null", "-w", "%{http_code}", "-X", "OPTIONS", "-H", "Origin: https://kassa-site.vercel.app", "-H", "Access-Control-Request-Method: POST", lead) == "204")
     ok("форма: пустое тело 400", curl("-o", "/dev/null", "-w", "%{http_code}", "-X", "POST", "-H", "Content-Type: application/json", "-d", "{}", lead) == "400")
-    # потолок прироста героя при живом Pixi: 250 000 Б десятичных по проводу (CDO [nimbus91]); берём худшее из br и gzip
+    # потолок прироста героя при живом Pixi: 250 000 Б десятичных (CDO [nimbus91], [lagoon78]).
+    # Как считаем: brotli и по сети, тела без заголовков (size_download), два числа RU и EN.
+    # Список ассетов вынимается из кода: всё, на что ссылается ветка html.pixi (head-скрипт после
+    # проверки WebGL и второй <script> с Pixi) и чего нет в остальной странице; кириллическое
+    # подмножество засечек считается только для RU (оно в ветке l==="ru").
     HERO_CEILING = 250000
+    def asset_refs(chunk):
+        return {m.lstrip("./") for m in re.findall(r'\.?/?((?:img|fonts|vendor)/[^"\'\s)]+)', chunk)}
+    scripts = re.findall(r"<script>(.*?)</script>", H, re.S)
+    head_branch = scripts[0][scripts[0].index("if(gl){"):] if scripts and "if(gl){" in scripts[0] else ""
+    pixi_script = scripts[-1] if len(scripts) > 1 else ""
+    branch = head_branch + pixi_script
+    # «остальная страница» это разметка без <script> и <style>: @font-face сам по себе ничего не качает,
+    # шрифт едет только когда его использует правило, а засечки использует лишь ветка html.pixi
+    rest = re.sub(r"<style>.*?</style>", "", re.sub(r"<script>.*?</script>", "", H, flags=re.S), flags=re.S)
+    growth = asset_refs(branch) - asset_refs(rest)
+    ru_only = set()
+    for m in re.findall(r'l==="ru"\?\[([^\]]*)\]', branch):
+        ru_only |= asset_refs(m)
     def wire(path):
-        return max(int(curl("-o", "/dev/null", "-H", "Accept-Encoding: " + enc, "-w", "%{size_download}", live + path) or 0) for enc in ("br", "gzip"))
-    base = wire("vendor/pixi.min.js") + wire("img/room.webp") + wire("fonts/serif-en-exact.woff2")
-    ru = base + wire("fonts/serif-ru-exact.woff2")
-    ok("прирост героя RU <= %d Б" % HERO_CEILING, ru <= HERO_CEILING, "RU %d Б, EN %d Б" % (ru, base))
-    ok("прирост героя EN <= %d Б" % HERO_CEILING, base <= HERO_CEILING, "EN %d Б" % base)
+        out = subprocess.run(["curl", "-s", "--max-time", "20", "-o", "/dev/null", "-H", "Accept-Encoding: br", "-w", "%{http_code} %{size_download}", live + path], capture_output=True, text=True).stdout.split()
+        return (out[0] if out else "000", int(out[1]) if len(out) > 1 else 0)
+    sizes = {a: wire(a) for a in sorted(growth)}
+    bad = [a for a, (code, _) in sizes.items() if code != "200"]
+    ok("ассеты ветки Pixi отдаются с прода", not bad, str(bad))
+    ru = sum(sz for a, (_, sz) in sizes.items())
+    en = sum(sz for a, (_, sz) in sizes.items() if a not in ru_only)
+    detail = ", ".join("%s %d" % (a, sz) for a, (_, sz) in sizes.items())
+    ok("прирост героя RU <= %d Б (brotli, тела)" % HERO_CEILING, ru <= HERO_CEILING, "RU %d Б: %s" % (ru, detail))
+    ok("прирост героя EN <= %d Б (brotli, тела)" % HERO_CEILING, en <= HERO_CEILING, "EN %d Б (без %s)" % (en, ", ".join(sorted(ru_only)) or "ничего"))
 # rig порождён из текущего index (после выноса ?end в rig он единственный источник кадров сцены)
 rig = root / "review" / "rig.html"
 if rig.exists():
