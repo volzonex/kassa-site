@@ -397,7 +397,8 @@ html.pixi .s72{border-top:0}
 (function(){
   var H=document.documentElement; if(!H.classList.contains("pixi"))return;
   var hero=document.querySelector(".hero"),sticky=hero.querySelector(".sticky"),scene=document.getElementById("scene");
-  var forceQ=location.search.indexOf("end")>-1?1:null;
+  /* режим кадров приёмки: ?end=1 веер, ?end=0 стопка; в этом режиме сторож FPS выключен, чтобы кадр не зависел от скорости рендера */
+  var endParam=new URLSearchParams(location.search).get("end"),forceQ=endParam===null?null:(endParam==="0"?0:1),review=endParam!==null;
   function bail(e){H.classList.remove("pixi");H.classList.add("nowebgl");scene.innerHTML="";if(e)H.setAttribute("data-pixi-err",String(e&&e.message||e).slice(0,200))}
   function loadImg(u){return new Promise(function(res,rej){var im=new Image();im.decoding="async";im.onload=function(){res(im)};im.onerror=function(){rej(new Error("нет "+u))};im.src=u})}
   function noiseTex(){var c=document.createElement("canvas");c.width=c.height=512;var x=c.getContext("2d");x.fillStyle="#808080";x.fillRect(0,0,512,512);
@@ -453,7 +454,7 @@ html.pixi .s72{border-top:0}
             s.holder.rotation=(-9+i*2)*Math.PI/180+Math.sin(t/120+i*2)*.0048;s.holder.skew.x=(px-.5)*.02*(1-i*.15)});
           /* замер первых двух секунд по стенным часам (дельта тикера зажата сверху и на слабом железе врёт):
              отсчёт с третьего кадра, чтобы компиляция шейдеров не портила замер; ниже 40 снимаем displacement, ниже 28 канвас */
-          if(!judged){frames++;if(frames===3)wall0=performance.now();
+          if(!judged&&!review){frames++;if(frames===3)wall0=performance.now();
             if(frames>3){var el=performance.now()-wall0;if(el>=2000){judged=true;var fps=(frames-3)*1000/el;H.setAttribute("data-fps",Math.round(fps));
               if(fps<28){teardown();return}if(fps<40){deck.filters=null}}}}
         });
