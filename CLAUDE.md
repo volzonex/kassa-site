@@ -38,6 +38,17 @@ Vercel деплоит из неё (импорт проекта делается 
 - **t.me Тахира:** `https://t.me/hellotakhir` (CTO взял через Bot API). Ссылки «бот ->
   Pronto» ведут на форму с чипом «бот»: у Pronto пока нет своего адреса.
 
+## Где живёт
+
+- **Запасной боевой адрес (с 06.09):** `https://hq-live-production.up.railway.app/kassa/`
+  (со слэшем, иначе относительные пути уходят в корень). Заливка файлов: `PUT
+  https://hq-live-production.up.railway.app/kassa/<путь>` с `Authorization: Bearer
+  <KASSA_DEPLOY_SECRET>`, тело = сырые байты; секрет в письме CTO [topaz37] в архиве
+  почты craftsman, в репу не класть. После заливки сверять sha256 отданного index с репой.
+- **Основной адрес:** Vercel из репы `volzonex/kassa-site`, проект импортируется руками
+  в дашборде (Тахир). Домен по умолчанию `kassa-site.vercel.app`, og:url и canonical
+  ставить после подтверждения домена.
+
 ## Проверки перед сдачей
 
 ```bash
@@ -45,6 +56,8 @@ bash review/shoot.sh 1440 900 d && bash review/shoot.sh 390 844 m   # кадры
 ```
 `review/` в .gitignore. Кадры секций снимаются через `review/rig.html` (копия index
 со `<base>` и сдвигом документа `?sel=`/`?y=`), веер через `review/shot.html` (iframe,
-`?end=1`). В iframe IntersectionObserver в headless не срабатывает, поэтому секции
-только через rig. Грепом: ноль имён клиентов и ноль цен в видимом тексте, длинных
+`?end=1`). Headless Chrome не даёт окно уже 500px, поэтому 390 всегда через
+iframe (`shot.html` грузит `rig.html` внутрь, сдвиг делает сам rig, IntersectionObserver
+так срабатывает; скролл iframe снаружи его не будит). В iframe rAF под virtual-time
+не идёт, цифра 72 на мобильных кадрах может стоять «0», это артефакт рига. Грепом: ноль имён клиентов и ноль цен в видимом тексте, длинных
 тире нет.
