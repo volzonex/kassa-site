@@ -21,14 +21,24 @@ body = re.sub(r"<script>.*?</script>", "", H, flags=re.S); body = re.sub(r"<styl
 text = html.unescape(re.sub(r"<[^>]+>", " ", body))
 
 # 1. видимый текст
-names = ["devago", "aselhands", "easy lounge", "friendly", "asel hands", "изи", "френдли", "девago"]
-hits = [n for n in names if re.search(r"(?i)(?<![a-zа-яё])" + re.escape(n) + r"(?![a-zа-яё])", text)]
-ok("имена клиентов в видимом тексте: ноль", not hits, "имя клиента в тексте или alt", str(hits))
+names = ["devago", "aselhands", "easy lounge", "easy-lounge", "friendly lounge", "friendly-lounge", "asel hands", "изи лаунж", "френдли", "девago"]
+def name_hits(t): return [n for n in names if re.search(r"(?i)(?<![a-zа-яё])" + re.escape(n) + r"(?![a-zа-яё])", t)]
+hits = name_hits(text)
+ok("имена клиентов в видимом тексте: ноль", not hits, "имя клиента в тексте (голое easy/friendly словом не считается, критик [prism96])", str(hits))
+ok("контроль имён: «It's easy to start» молчит, «Easy lounge» краснеет", not name_hits("It's easy to start, friendly people") and name_hits("отзыв про Easy lounge"), "образец имён ловит законное слово или пропускает имя")
 alts = " ".join(re.findall(r'alt="([^"]*)"', H) + re.findall(r'data-alt-\w+="([^"]*)"', H))
 ok("имена клиентов в alt: ноль", not [n for n in names if re.search(r"(?i)" + re.escape(n), alts)], "имя клиента внутри alt")
-prices = re.findall(r"(?i)(\$|€|₽|₸|сум|usd|от \d|\d{2,}\s?(руб|долл|тыс))", text)
-ok("цены в видимом тексте: ноль", not prices, "валюта или «от N» в тексте", str(prices[:3]))
-ok("длинных тире нет", "—" not in text, "символ «—» в тексте")
+# цены: образец критика [prism96] (множитель только между числом и валютой, валюта с любой стороны), сумы основой слова (CDO [petal78])
+PRICE = re.compile(r"(?i)(?:(?:\$|USD|UZS|сум\w*|сўм\w*|so['ʻ‘ʼ]?m|₽)\s*:?\s*\d|\d[\d\s,.]*(?:\s*(?:млн\.?|mln|k|тыс\.?))?\s*(?:\$|USD|UZS|сум\w*|сўм\w*|so['ʻ‘ʼ]?m|₽))")
+prices = PRICE.findall(text)
+ok("цены в видимом тексте: ноль", not prices, "цена в любой форме (сум/сўм/so'm/UZS/$/USD, до или после числа)", str(prices[:3]))
+must_red = ["от 500 000 сум", "500 000 сўм", "3 000 000 so'm", "3 000 000 soʻm", "1 200 000 UZS", "from $500", "500 USD", "от 300$", "2 mln so'm", "500k UZS", "цена 300 тыс сум", "Цена в сумах: 1 200 000", "от 500 тыс. сум", "2 млн. сум", "$1,299.00", "600 $"]
+must_silent = ["Сайт и лендинг за 72 часа", "72 hours", "1 000 клиентов в базе", "дистанция 5 km", "файл 300 kb", "2 млн просмотров", "формат 16k", "работаем с 2019 года", "10 000 шагов", "гарантия 3 года", "страница весит 43 kb", "Сумма договора обсуждается лично", "+998 90 123 45 67"]
+miss = [x for x in must_red if not PRICE.search(x)]; false = [x for x in must_silent if PRICE.search(x)]
+ok("контроль цен: %d подсадок ловятся, %d законных молчат" % (len(must_red), len(must_silent)), not miss and not false, "образец цен пропускает форму или ругается на законный текст", "пропущено %s, ложные %s" % (miss, false))
+DASH = re.compile(r"(?:^|[ (])[—–―−](?:[ )]|$)", re.M)
+ok("длинных тире нет", not DASH.search(text), "тире «— – ― −» как пунктуация в видимом тексте (CDO [harvest74])")
+ok("контроль тире: «июнь – июль» краснеет, «слово тире» молчит", bool(DASH.search("июнь – июль")) and bool(DASH.search("текст — вот")) and not DASH.search("слово тире без знака"), "образец тире не ловит пунктуацию или ловит слово")
 digits = sorted(set(re.findall(r"\d+", text)))
 ok("из цифр только 72", digits == ["72"], "любое другое число в тексте", str(digits))
 B = H[H.index("<body"):]
@@ -116,6 +126,11 @@ if "--live" in sys.argv:
     ok("путь с Pixi EN <= %d Б" % PIXI_CEILING, base_en + pixi_sz <= PIXI_CEILING, "база + ветка движения EN больше потолка", "EN %d" % (base_en + pixi_sz))
     ok("связь потолков: база %d + измеренный Pixi <= %d" % (BASE_CEILING, PIXI_CEILING), BASE_CEILING + pixi_sz <= PIXI_CEILING, "потолок базы плюс pixi.min.js по проводу больше потолка пути с Pixi", "%d + %d = %d" % (BASE_CEILING, pixi_sz, BASE_CEILING + pixi_sz))
     print("      по проводу: база RU %d / EN %d, с Pixi RU %d / EN %d" % (base_ru, base_en, base_ru + pixi_sz, base_en + pixi_sz))
+    # честность вывода (CDO [lava57]): рядом с путём героя печатаем ОБЩИЙ вес по всем ссылкам страницы плюс HTML,
+    # без деления на языки: латинские подмножества шрифтов едут на любой локали, обе версии текста в одном файле
+    all_refs = sorted(refs)
+    total = len(got) + sum(wire(a)[1] for a in all_refs)
+    print("      общий вес страницы по её ссылкам (HTML + %d файлов, brotli, тела): %d Б; число пути героя это НЕ вес страницы" % (len(all_refs), total))
     # три состояния облика (CDO [ledge39]): A pixi, B без WebGL, C после сторожа
     st = subprocess.run([sys.executable, "tools/states.py"], capture_output=True, text=True)
     last = [l for l in st.stdout.splitlines() if l.startswith("ИТОГ состояний")]

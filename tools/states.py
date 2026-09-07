@@ -43,8 +43,11 @@ def main():
     if bad: print("FAIL пробник не отдал состояние:", bad); sys.exit(1)
     for m in S: print("%s: класс=%r канвас=%s err=%r" % (m, S[m]["html.class"], S[m]["#scene canvas"], S[m]["data-pixi-err"]))
     keys = [k for k in S["A"] if k not in MOTION]
+    N = len(POINTS)  # ожидаемое число точек: константа, не длина словаря (критик [fern70])
+    measured = [k for k in keys if all(S[m].get(k) not in (None, "", "нет элемента") for m in S)]
     diffs = [(k, S["A"][k], S["B"][k], S["C"][k]) for k in keys if not (S["A"][k] == S["B"][k] == S["C"][k])]
     for k,a,b,c in diffs: print("РАСХОЖДЕНИЕ %-40s A=%s | B=%s | C=%s" % (k,a,b,c))
-    print("ИТОГ состояний: %d расхождений из %d точек (красное: любая точка облика разошлась)" % (len(diffs), len(keys)))
-    sys.exit(1 if diffs else 0)
+    print("измерилось точек: %d из %d (красное: селектор не нашёлся хотя бы в одном состоянии)" % (len(measured), N))
+    print("ИТОГ состояний: %d расхождений из %d точек, измерилось %d из %d (красное: расхождение или недоизмер)" % (len(diffs), N, len(measured), N))
+    sys.exit(1 if (diffs or len(measured) < N) else 0)
 if __name__ == "__main__": main()
