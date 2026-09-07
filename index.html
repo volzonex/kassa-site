@@ -198,7 +198,7 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
     <h1><span lang="ru">Сайт и лендинг за <em>72 часа.</em> Строю сам.</span><span lang="en">Websites and landing pages that ship in <em>72 hours.</em> I build them myself.</span></h1>
     <p class="sub"><span lang="ru">Я сам сажусь за макет, сам верстаю, сам сдаю, без агентства и без цепочки субподрядчиков между нами.</span><span lang="en">I design it myself, build it myself, deliver it myself. No agency and no chain of subcontractors between us.</span></p>
     <div class="cta">
-      <a class="btn tg" href="#form"><span lang="ru">Написать в телеграм</span><span lang="en">Message me on Telegram</span></a>
+      <a class="btn tg" href="https://t.me/hellotakhir" target="_blank" rel="noopener"><span lang="ru">Написать в телеграм</span><span lang="en">Message me on Telegram</span></a>
       <a class="btn ghost" href="#portfolio"><span lang="ru">Смотреть работы</span><span lang="en">See the work</span></a>
     </div>
   </div>
@@ -236,7 +236,7 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
     <p class="guar"><span lang="ru">ГАРАНТИЯ · ПРАВКИ ДО ЗАПУСКА, А НЕ ПОСЛЕ</span><span lang="en">GUARANTEE · CHANGES BEFORE LAUNCH, NOT AFTER</span></p>
     <p class="price" lang="ru">Цену не пишу здесь, зависит от объёма и срочности. Пишешь мне в телеграм, называю цифру за один разговор, без цикла коммерческих предложений.</p>
     <p class="price" lang="en">I don't put a price here, it depends on scope and how fast you need it. Message me on Telegram and I'll give you a number in one conversation, no back-and-forth of proposals.</p>
-    <a class="btn tg" href="#form"><span lang="ru">Назвать цифру за один разговор</span><span lang="en">Get a number in one conversation</span></a>
+    <a class="btn tg" href="https://t.me/hellotakhir" target="_blank" rel="noopener"><span lang="ru">Назвать цифру за один разговор</span><span lang="en">Get a number in one conversation</span></a>
   </div>
 </div></section>
 
@@ -297,8 +297,8 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
 
 <script>
 (function(){
-  /* t.me Тахира (CTO, письмо [violet], взят через Bot API) и транспорт формы на hq-live */
-  var TG="https://t.me/hellotakhir", LEAD="https://hq-live-production.up.railway.app/kassa/lead";
+  /* транспорт формы на hq-live (CTO, письмо [violet]); адрес телеграма живёт в разметке кнопок, не в скрипте (CDO [meteor33]) */
+  var LEAD="https://hq-live-production.up.railway.app/kassa/lead";
   var h=document.documentElement, RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
   var META={ru:["КАССА: сайт и лендинг за 72 часа","Строю сам: сайт на проде, правки до запуска, домен и хостинг настроены. Лендинг за 72 часа."],
             en:["KASSA: websites and landing pages in 72 hours","I build it myself: a live site, changes before launch, domain and hosting set up. A landing page in 72 hours."]};
@@ -314,7 +314,6 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
   }
   setLang(lang(),false);
   document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){setLang(b.getAttribute("data-set"),true)})});
-  if(TG){document.querySelectorAll("a.tg").forEach(function(a){a.href=TG;a.target="_blank";a.rel="noopener"})}
 
   /* чипы формы из ссылок «бот -> Pronto» */
   document.querySelectorAll("[data-kind]").forEach(function(a){a.addEventListener("click",function(){
