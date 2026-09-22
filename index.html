@@ -52,10 +52,12 @@ html[data-lang="ru"] .lang [data-set="ru"],html[data-lang="en"] .lang [data-set=
 .hero .sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;padding:min(34vh,calc(100vh - 540px)) 5vw 6vh;background:var(--paper);color:var(--ink)}
 .plate{position:absolute;inset:0;z-index:0;background:var(--paper) url(img/room.webp) 50% 46%/cover no-repeat}
 .veil{position:absolute;inset:0;z-index:1;background:rgba(10,11,13,.42)}
-/* три плиты работ: те же кропы, что в портфолио, полоса 52..86% высоты; расстановка как в сцене */
+/* три плиты работ: готовые кадры 1280x272 (кроп уехал в сами файлы), расстановка как в сцене */
 .slabs{position:absolute;inset:0;z-index:2;--base:min(41.5vw,660px);--cx:74.5%;--cy:50%}
-.slab{position:absolute;left:var(--cx);top:var(--cy);width:calc(var(--base) * var(--k));aspect-ratio:1280/272;overflow:hidden;border-radius:12px;box-shadow:14px 26px 44px rgba(0,0,0,.75);outline:1.2px solid rgba(200,162,106,var(--edge));outline-offset:-1px;transform:translate(calc(-50% - var(--dx)),calc(-50% - var(--dy))) rotate(var(--rot))}
-.slab img{width:100%;height:auto;margin-top:-32.5%;display:block}
+.slab{position:absolute;left:var(--cx);top:var(--cy);width:calc(var(--base) * var(--k));border-radius:12px;box-shadow:14px 26px 44px rgba(0,0,0,.75);outline:1.2px solid rgba(200,162,106,var(--edge));outline-offset:-1px;transform:translate(calc(-50% - var(--dx)),calc(-50% - var(--dy))) rotate(var(--rot))}
+/* скругление переехало на саму картинку: резать нечего, значит `overflow:hidden` снят,
+   а без него прямые углы кадра торчали бы из скруглённой плиты принятой композиции */
+.slab img{width:100%;height:auto;display:block;border-radius:inherit}
 .slab.s1{--k:1;--dx:0px;--dy:0px;--rot:-9deg;--edge:.42}
 .slab.s2{--k:.92;--dx:44px;--dy:108px;--rot:-7deg;--edge:.34;opacity:.94;filter:brightness(.78) blur(.9px)}
 .slab.s3{--k:.84;--dx:88px;--dy:194px;--rot:-5deg;--edge:.26;opacity:.88;filter:brightness(.62) blur(1.8px)}
@@ -188,9 +190,9 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
   <div class="plate" aria-hidden="true"></div>
   <div class="veil" aria-hidden="true"></div>
   <div class="slabs" aria-hidden="true">
-    <div class="slab s3"><img src="img/aselhands.webp" width="1280" height="800" alt="" decoding="async"></div>
-    <div class="slab s2"><img src="img/friendly.webp" width="1280" height="800" alt="" decoding="async"></div>
-    <div class="slab s1"><img src="img/devago.webp" width="1280" height="800" alt="" fetchpriority="high" decoding="async"></div>
+    <div class="slab s3"><img src="img/deck-aselhands.webp" width="1280" height="272" alt="" decoding="async"></div>
+    <div class="slab s2"><img src="img/deck-friendly.webp" width="1280" height="272" alt="" decoding="async"></div>
+    <div class="slab s1"><img src="img/deck-devago.webp" width="1280" height="272" alt="" fetchpriority="high" decoding="async"></div>
   </div>
   <div id="scene" aria-hidden="true"></div>
   <svg class="grain" aria-hidden="true"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#g)" opacity=".16"/></svg>
@@ -384,10 +386,12 @@ html.js .rv.in{animation:rise .4s cubic-bezier(.2,.7,.2,1) both;animation-delay:
         veil.clear().rect(0,0,w,h).fill({color:0x0A0B0D,alpha:.42})}
       fitRoom();
       loadImg("img/room.webp").then(function(im){roomSp=new PIXI.Sprite(PIXI.Texture.from(im));roomSp.anchor.set(.5);room.addChildAt(roomSp,0);fitRoom()});
-      /* колода: те же кропы портфолио, что в проде, рамкой 52..86% высоты */
-      var files=["img/devago.webp","img/friendly.webp","img/aselhands.webp"];
-      return Promise.all(files.map(function(f){return loadImg(f).then(function(im){var src=PIXI.Texture.from(im).source,y=Math.round(src.height*.52),hh=Math.round(src.height*.34);
-        return new PIXI.Texture({source:src,frame:new PIXI.Rectangle(0,y,src.width,hh)})})})).then(function(tex){
+      /* колода: готовые кадры 1280x272, обрезаны заранее под заголовок каждого сайта.
+         Кропа в коде больше нет НИГДЕ: он жил в двух местах (здесь и в CSS статики),
+         они держались руками и разъехались бы от первой правки одного из двух. */
+      var files=["img/deck-devago.webp","img/deck-friendly.webp","img/deck-aselhands.webp"];
+      return Promise.all(files.map(function(f){return loadImg(f).then(function(im){
+        return PIXI.Texture.from(im)})})).then(function(tex){
         var deck=new PIXI.Container();app.stage.addChild(deck);
         var slabs=tex.map(function(t,i){var holder=new PIXI.Container(),shadow=new PIXI.Graphics(),sp=new PIXI.Sprite(t),edge=new PIXI.Graphics();
           sp.anchor.set(.5);if(i===1)sp.tint=0xCFCAC2;if(i===2)sp.tint=0xA8A297;holder.addChild(shadow,sp,edge);if(i>0)holder.filters=[new PIXI.BlurFilter({strength:i*0.9})];
