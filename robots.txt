@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kassa-site.vercel.app/sitemap.xml
