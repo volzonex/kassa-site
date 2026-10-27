@@ -188,6 +188,42 @@ nav a:hover,.ghost:hover{color:#fff}
 #lead .hint{font-size:13px;color:rgba(255,255,255,.8)}   /* подсказка CCO строкой под полем: плейсхолдером она обрезалась на 390 */
 .fmsg{font-size:15px;color:#fff} .fmsg a{text-decoration:underline;text-underline-offset:3px}
 .done{margin-top:28px;font-size:18px}
+
+/* ---- фича первого экрана (CDO chiffon12, спека SPEC-FICHA.md, образец fich/v12): «Попробуй сам» и «Built with Claude» ---- */
+.try{margin-top:30px;display:flex;flex-direction:column;gap:10px;max-width:520px}
+.try .mono{color:rgba(255,255,255,.85)}
+.try .row{display:flex;gap:8px;flex-wrap:wrap}
+.try button{font:500 13px 'Golos Text';color:#fff;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);border-radius:12px;padding:8px 12px;min-height:44px;cursor:pointer;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.try button.on{background:#fff;color:var(--acc);border-color:#fff}
+.try button:focus-visible,.opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
+/* печать вопроса: курсор кобальтом мигает прозрачностью, только пока печатается */
+.bub .cur{display:none;width:2px;height:15px;background:var(--acc);margin-left:3px;vertical-align:-2px}
+.typing .bub .cur{display:inline-block;animation:beat .8s steps(1) infinite}
+.l1 .ex{color:var(--dim)}
+/* черновик агента: строка CCO на месте строк-скелетов */
+.dr{margin-top:12px;font-size:13.5px;color:var(--tx);opacity:0;transition:opacity .3s}
+.l2.drafted .sk{display:none} .l2.drafted .dr{opacity:1}
+/* варианты кнопками: гаснут при новом вопросе, всплывают по очереди */
+button.opt{font:inherit;width:100%;text-align:left;cursor:pointer;position:relative;transition:opacity .15s,transform .3s}
+.opts.out button.opt{opacity:0;transform:translateY(6px);pointer-events:none}
+.opts button.opt.in{opacity:1;transform:none}
+.stack.fast .pil i{animation-duration:1.2s}
+.stack.burst .pil i{animation:flow .6s linear 1}
+.tag.flash{animation:tagflash .6s ease-out 1}
+@keyframes tagflash{0%{opacity:.6}50%{opacity:1}100%{opacity:.9}}
+/* «Built with Claude» четвёртой ячейкой полосы процесса */
+.rail{grid-template-columns:1fr 1fr 1fr auto}
+.rail .bw{display:inline-flex;flex-direction:row;align-items:center;gap:12px;padding:10px 14px 10px 12px;margin:10px 12px;align-self:center;border-radius:14px;border:1px solid var(--edge);background:rgba(255,255,255,.6);color:var(--tx);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.rail div.bw+div,.rail div.bw{border-left:0}
+.rail .bw b{font:600 13px 'Golos Text';color:var(--tx);text-transform:none;letter-spacing:normal} .bw .n{text-transform:none;letter-spacing:normal}   /* полоса .mono пишет прописными, метка и число своим шрифтом */ .bw .sep{width:1px;height:22px;background:var(--edge)}
+.bw .n{font:600 20px/1 Unbounded;color:var(--acc)} .bw .mono{color:var(--dim);line-height:1.35}
+.bw i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px rgba(0,99,199,.18);animation:beat 1.6s ease-in-out infinite}
+@media (max-width:900px){
+ .try .row{flex-direction:column}.try button{width:100%;text-align:left}
+ .rail{grid-template-columns:1fr}.rail .bw{margin:10px 16px 14px;justify-self:start}
+ button.opt:before{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}   /* касание 44 при видимой высоте 32 */
+}
+@media (prefers-reduced-motion:reduce){button.opt,.dr{transition:none}}
 footer{border-top:1px solid var(--ln);padding:26px 0 34px;color:var(--dim)}
 footer .mono{font-size:11px}
 @media (max-width:900px){
@@ -206,19 +242,20 @@ footer .mono{font-size:11px}
  <h1>AI does the work. You make the call.</h1>
  <p class="lead">Sales bots, content and an AI HQ for your business. Agents prepare the work, the sales bot answers from your own catalogue and prices, and nothing paid starts without your button.</p>
  <div class="cta"><a class="btn" href="https://t.me/hellotakhir" target="_blank" rel="noopener">Message us on Telegram</a><a class="ghost" href="#how">How it works</a></div>
+ <div class="try"><span class="mono">Try it: pick a customer question, then make the call.</span><div class="row" id="qs"></div></div>
 </div>
-<div class="stack" aria-hidden="true"><div class="scene">
- <div class="layer l1"><div class="lh mono"><b>01 · Request</b><span>Telegram</span></div><div class="bub">Which model is best for a family?</div><span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
- <div class="layer l2"><div class="lh mono"><b>02 · Agent draft</b><span>3 options</span></div><div class="sk"></div><div class="sk"></div><div class="sk s"></div><span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
+<div class="stack" id="stack"><div class="scene">
+ <div class="layer l1"><div class="lh mono"><b>01 · Request</b><span>Telegram · <span class="ex">Example</span></span></div><div class="bub"><span id="qtext">Which model is best for a family?</span><span class="cur"></span></div><span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
+ <div class="layer l2 drafted" id="l2"><div class="lh mono"><b>02 · Agent draft</b><span>3 options</span></div><div class="sk"></div><div class="sk"></div><div class="sk s"></div><div class="dr" id="draft">Asks about a family car. Match by seats and budget.</div><span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
  <div class="layer l3"><div class="lh mono"><b style="color:var(--acc)">03 · Your decision</b><span class="live"><i></i>your call</span></div>
-  <div class="opt"><b>1</b>Suggest by size and budget</div><div class="opt on"><b>2</b>Two options: installment or test drive</div><div class="opt"><b>3</b>Call and talk it through</div>
+  <div class="opts" id="opts"><button type="button" class="opt in" aria-pressed="false"><b>1</b><span>Ask about seats and budget</span></button><button type="button" class="opt on in" aria-pressed="true"><b>2</b><span>Suggest two models to compare</span></button><button type="button" class="opt in" aria-pressed="false"><b>3</b><span>Offer a call with a manager</span></button></div>
   <span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
  <span class="pil a"><i></i></span><span class="pil b"><i></i></span><span class="pil c"><i></i></span><span class="pil d"><i></i></span>
 </div>
  <span class="tag mono" data-for="l3"><i></i>Only what you chose goes out</span>
 </div></div>
 
-<div class="rail mono"><div><span>01 · in</span><b>A request comes in</b></div><div><span>02 · agent</span><b>An agent prepares a draft</b></div><div class="h"><span>03 · human</span><b>You decide what goes out</b></div></div>
+<div class="rail mono"><div><span>01 · in</span><b>A request comes in</b></div><div><span>02 · agent</span><b>An agent prepares a draft</b></div><div class="h"><span>03 · human</span><b>You decide what goes out</b></div><div class="bw" id="bw"><b>Built with Claude</b><span class="sep"></span><span class="mono">Every decision approved<br>by a person</span></div></div>
 
 <section id="what"><div class="sh"><h2>What we do</h2></div><p class="sub">Every service has three layers: what comes in, what the agent prepares, what you decide.</p>
 <div class="svc" id="svc"></div></section>
@@ -278,6 +315,51 @@ function tags(){ const st=document.querySelector(".stack").getBoundingClientRect
  document.querySelectorAll(".tag[data-for]").forEach(t=>{ const r=document.querySelector("."+t.dataset.for).getBoundingClientRect();
   t.style.left=Math.max(0,Math.min(r.left-st.left-6, st.width-t.offsetWidth))+"px"; t.style.top=(r.top-st.top-28)+"px"; }); }
 tags(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { tags(); addEventListener("resize", tags); });
+
+// [chiffon12] «Попробуй сам»: три сценария константами, модель не вызывается, наружу ни одного запроса (тексты CCO)
+(function(){
+ var SC=[{q:"Which model is best for a family?", d:"Asks about a family car. Match by seats and budget.", o:["Ask about seats and budget","Suggest two models to compare","Offer a call with a manager"]},
+  {q:"Can I book a test drive today?", d:"Wants a test drive today. Find a time and a showroom.", o:["Ask what time suits them","Ask which showroom is closer","Pass to a manager to confirm"]},
+  {q:"Do you offer instalments?", d:"Asks about instalments. Work out a plan from bank rates.", o:["Work out a monthly payment","Ask about the down payment first","Send the bank terms"]}];
+ var RM=matchMedia("(prefers-reduced-motion: reduce)"), qs=document.getElementById("qs"), stack=document.getElementById("stack"), qt=document.getElementById("qtext"),
+  l2=document.getElementById("l2"), dr=document.getElementById("draft"), opts=document.getElementById("opts"), tag=document.querySelector(".tag[data-for]"), T=[], gen=0;
+ qs.innerHTML=SC.map(function(s,i){ return '<button type="button"'+(i===0?' class="on" aria-pressed="true"':' aria-pressed="false"')+' data-q="'+i+'">'+s.q+'</button>'; }).join("");
+ function later(ms, f){ T.push(setTimeout(f, ms)); }
+ function stop(){ T.forEach(clearTimeout); T=[]; stack.classList.remove("fast","typing"); }
+ function setOpts(s){ [].forEach.call(opts.children, function(b,i){ b.querySelector("span").textContent=s.o[i]; b.classList.remove("on"); b.setAttribute("aria-pressed","false"); }); }
+ function play(i){
+  stop(); var g=++gen, s=SC[i];
+  [].forEach.call(qs.children, function(b){ var on=+b.dataset.q===i; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
+  if(RM.matches){ qt.textContent=s.q; dr.textContent=s.d; l2.classList.add("drafted"); setOpts(s); opts.classList.remove("out"); [].forEach.call(opts.children, function(b){ b.classList.add("in"); }); return; }
+  opts.classList.add("out"); [].forEach.call(opts.children, function(b){ b.classList.remove("in","on"); b.setAttribute("aria-pressed","false"); });
+  l2.classList.remove("drafted"); stack.classList.add("fast","typing"); qt.textContent="";
+  var n=s.q.length; for(var k=1;k<=n;k++)(function(k){ later(Math.round(700*k/n), function(){ if(g===gen) qt.textContent=s.q.slice(0,k); }); })(k);
+  later(700, function(){ stack.classList.remove("typing"); });
+  later(1200, function(){ dr.textContent=s.d; l2.classList.add("drafted"); });
+  later(1500, function(){ setOpts(s); opts.classList.remove("out"); });
+  [0,1,2].forEach(function(k){ later(1500+120*k, function(){ opts.children[k].classList.add("in"); }); });
+  later(1900, function(){ stack.classList.remove("fast"); });
+ }
+ qs.addEventListener("click", function(e){ var b=e.target.closest("button[data-q]"); if(b) play(+b.dataset.q); });
+ opts.addEventListener("click", function(e){ var b=e.target.closest("button.opt"); if(!b || opts.classList.contains("out")) return;
+  [].forEach.call(opts.children, function(x){ var on=x===b; x.classList.toggle("on", on); x.setAttribute("aria-pressed", String(on)); });
+  if(RM.matches) return;
+  tag.classList.remove("flash"); void tag.offsetWidth; tag.classList.add("flash");
+  stack.classList.remove("burst"); void stack.offsetWidth; stack.classList.add("burst"); setTimeout(function(){ stack.classList.remove("burst"); }, 650); });
+})();
+// [chiffon12] «Built with Claude»: число решений человека, один GET при загрузке; нет ответа за 3 с, null или не целое >= 0: без числа
+(function(){
+ var bw=document.getElementById("bw"), M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+ var ctl=window.AbortController ? new AbortController() : null, tm=setTimeout(function(){ if(ctl) ctl.abort(); }, 3000);
+ fetch("https://hq-live-production.up.railway.app/kassa/approvals", {cache:"no-store", signal: ctl ? ctl.signal : undefined})
+  .then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+   clearTimeout(tm); var n=j && j.approved, m=j && /^(\d{4})-(\d{2})-(\d{2})$/.exec(j.since||"");
+   if(typeof n!=="number" || !Number.isInteger(n) || n<0 || !m) return;
+   var num=n>=10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") : String(n), since=(+m[3])+" "+M[+m[2]-1];
+   bw.innerHTML='<b>Built with Claude</b><span class="sep"></span><i></i><span class="n">'+num+'</span><span class="mono">'+(n===1?"decision":"decisions")+' approved<br>by a person · since '+since+'</span>';
+   tags();
+  }).catch(function(){});
+})();
 // форма: тот же адрес заявок и та же отправка, что на живом сайте (hq-live /kassa/lead: name, contact, kind, message, lang; ловушка website)
 (function(){
  var LEAD="https://hq-live-production.up.railway.app/kassa/lead", f=document.getElementById("lead"), msg=document.getElementById("fmsg"), done=document.getElementById("done");
