@@ -138,6 +138,10 @@ h2{font:500 clamp(28px,3vw,40px)/1.15 Unbounded,sans-serif}
 .bez.real img{aspect-ratio:auto}
 .sites{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:4px 14px 0;flex:3}
 .sites .bez{margin:14px 0 0}
+.site-link{display:block;transition:transform .2s ease,box-shadow .2s ease}   /* снимок ведёт на английскую копию (CDO millet59): лёгкий подъём при наведении, фокус с клавиатуры */
+.site-link:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(3,59,131,.22)}
+.site-link:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.site-link{transition:none}.site-link:hover{transform:none}}
 
 @media (max-width:900px){.wrap{padding:0 18px}.hero{grid-template-columns:1fr;gap:10px;padding:6px 0 60px}.stack{height:410px;order:-1;margin-top:-10px}.eyebrow{display:none}nav{display:none}
  .scene{left:8%;right:4%;top:26%;height:165px}.layer{padding:14px 16px}.l1{transform:translateZ(-170px)}.l2{transform:translateZ(-55px)}.l3{transform:translateZ(60px)}
@@ -367,7 +371,7 @@ footer .mono{font-size:11px}
   <div class="c"><b>AI HQ</b><i>This is how we run our own work · the Decisions row from our HQ</i></div></div>
 </div>
 <div class="works" style="grid-template-columns:1fr;margin-top:16px"><div class="w row" style="flex-direction:row;align-items:stretch">
- <div class="sites"><div class="bez"><img src="img/a-devago-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div><div class="bez"><img src="img/a-aselhands-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div><div class="bez"><img src="img/a-easy-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div><div class="bez"><img src="img/a-friendly-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></div></div>
+ <div class="sites"><a class="bez site-link" href="work/devago/" target="_blank" rel="noopener" aria-label="Open the English showcase copy of DEVAGO"><img src="img/a-devago-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></a><a class="bez site-link" href="work/aselhands/" target="_blank" rel="noopener" aria-label="Open the English showcase copy of ASELHANDS"><img src="img/a-aselhands-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></a><a class="bez site-link" href="work/easy/" target="_blank" rel="noopener" aria-label="Open the English showcase copy of EASY lounge"><img src="img/a-easy-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></a><a class="bez site-link" href="work/friendly/" target="_blank" rel="noopener" aria-label="Open the English showcase copy of FRIENDLY lounge"><img src="img/a-friendly-en.webp" width="1280" height="800" alt="" loading="lazy" decoding="async"></a></div>
  <div class="c" style="flex:1;margin:auto 0;padding-bottom:20px"><b>Websites</b><i>One live and paid for by a client, three demos built on real business data</i></div></div></div>
 </section>
 

@@ -1695,6 +1695,8 @@ footer{padding-bottom:104px}
 
 .inst-line+.inst-line{margin-left:18px}
 </style>
+<style>/* English titles are longer: on narrow screens the photo-print card titles get a smaller size and spacing so a word never breaks (CDO millet59) */
+@media (max-width:420px){.pp .bx b{font-size:14px;letter-spacing:.08em}}</style>
 </head>
 <body>
 
@@ -2853,7 +2855,7 @@ h_sub:"Zamonaviy shift yechimlari va benuqson yorugʻlik bilan betakror interyer
     var n=mode==="car"?pages():cards.length;
     var html="";
     if(mode==="car")html+='<button type="button" class="nav nav-prev" aria-label="Back">'+icon(-1)+'</button>';
-    for(var i=0;i<n;i++)html+='<button type="button" class="dot'+(i===0?" on":"")+'" data-i="'+i+'" aria-label="Review '+(i+1)+'"></button>';
+    for(var i=0;i<n;i++)html+='<button type="button" class="dot'+(i===0?" on":"")+'" data-i="'+i+'" aria-label="Slide '+(i+1)+'"></button>';
     if(mode==="car")html+='<button type="button" class="nav nav-next" aria-label="Next">'+icon(1)+'</button>';
     ctl.innerHTML=html;
     var pv=ctl.querySelector(".nav-prev"),nx=ctl.querySelector(".nav-next");
