@@ -1,5 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pronto · AI does the work. You make the call.</title>
+<link rel="icon" href="img/pronto-tile-2710.svg" type="image/svg+xml"><link rel="icon" href="img/pronto-icon-32-2710.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="img/pronto-icon-180-2710.png">
 <meta name="description" content="Sales bots, content and an AI HQ for your business. Agents prepare the work, the sales bot answers from your own catalogue and prices, and nothing paid starts without your button.">
 <!-- Pronto, облик A «Слой решений» (Тахир 27.10 11:11, спека CDO warroom/cdo/pronto-redizain/SPEC.md, бриф lotus92). Стили образца
      stand-a4.html один в один, тексты CCO warroom/kassa/pronto-en-2710.md дословно. Стенд: на прод только по «да» Тахира. -->
@@ -43,8 +44,10 @@ body{-webkit-font-smoothing:antialiased;overflow-x:hidden;background:var(--bg);c
 img{display:block;max-width:100%}
 .mono{font:500 11px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase}
 header{display:flex;align-items:center;justify-content:space-between;padding:26px 0;color:#fff}
-.logo{font:600 20px/1 Unbounded,sans-serif;letter-spacing:.02em;display:flex;align-items:center;gap:10px}
-.logo i{width:22px;height:22px;border-radius:7px;background:#fff;box-shadow:0 6px 16px rgba(3,59,131,.35)}
+.logo{font:600 22px/1 Unbounded,sans-serif;letter-spacing:.02em;display:flex;align-items:center;gap:10px}
+.logo img{display:block;width:32px;height:32px;border-radius:8px;box-shadow:0 6px 16px rgba(3,59,131,.35)}
+/* знак P в плитке (CDO delta71, Тахир 15:09 «P всё ещё не видно»): 32 на компьютере, 30 на телефоне */
+@media (max-width:900px){.logo img{width:30px;height:30px}}
 nav{display:flex;gap:26px;font-size:14px;color:rgba(255,255,255,.85);align-items:center}
 nav .mono{border:1px solid rgba(255,255,255,.4);border-radius:8px;padding:4px 8px;font-size:10.5px}
 .hero{display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:center;padding:4px 0 72px;color:#fff}
@@ -235,7 +238,7 @@ footer .mono{font-size:11px}
 </style></head><body>
 <div class="sky"><div class="grid"><i class="pulse h" style="top:256px"></i><i class="pulse h" style="top:512px;animation-delay:2.6s;animation-duration:8s"></i><i class="pulse v" style="left:768px;animation-delay:1.2s"></i><i class="pulse v" style="left:1024px;animation-delay:4.1s;animation-duration:9s"></i></div></div>
 <div class="wrap">
-<header><a class="logo" href="#top" id="top"><i></i>Pronto</a><nav><a href="#what">What we do</a><a href="#how">How it works</a><a href="#running">What's running</a></nav></header>
+<header><a class="logo" href="#top" id="top"><img src="img/pronto-tile-2710.svg" width="32" height="32" alt="">Pronto</a><nav><a href="#what">What we do</a><a href="#how">How it works</a><a href="#running">What's running</a></nav></header>
 
 <div class="hero"><div>
  <div class="eyebrow mono"><i></i>AI automation · Human Agency Layer</div>
@@ -245,7 +248,7 @@ footer .mono{font-size:11px}
  <div class="try"><span class="mono">Try it: pick a customer question, then make the call.</span><div class="row" id="qs"></div></div>
 </div>
 <div class="stack" id="stack"><div class="scene">
- <div class="layer l1"><div class="lh mono"><b>01 · Request</b><span>Telegram · <span class="ex">Example</span></span></div><div class="bub"><span id="qtext">Which model is best for a family?</span><span class="cur"></span></div><span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
+ <div class="layer l1"><div class="lh mono"><b>01 · Request</b><span>Messenger · <span class="ex">Example</span></span></div><div class="bub"><span id="qtext">Which model is best for a family?</span><span class="cur"></span></div><span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
  <div class="layer l2 drafted" id="l2"><div class="lh mono"><b>02 · Agent draft</b><span>3 options</span></div><div class="sk"></div><div class="sk"></div><div class="sk s"></div><div class="dr" id="draft">Asks about a family car. Match by seats and budget.</div><span class="node a"></span><span class="node b"></span><span class="node c"></span><span class="node d"></span></div>
  <div class="layer l3"><div class="lh mono"><b style="color:var(--acc)">03 · Your decision</b><span class="live"><i></i>your call</span></div>
   <div class="opts" id="opts"><button type="button" class="opt in" aria-pressed="false"><b>1</b><span>Ask about seats and budget</span></button><button type="button" class="opt on in" aria-pressed="true"><b>2</b><span>Suggest two models to compare</span></button><button type="button" class="opt in" aria-pressed="false"><b>3</b><span>Offer a call with a manager</span></button></div>
@@ -260,7 +263,7 @@ footer .mono{font-size:11px}
 <section id="what"><div class="sh"><h2>What we do</h2></div><p class="sub">Every service has three layers: what comes in, what the agent prepares, what you decide.</p>
 <div class="svc" id="svc"></div></section>
 
-<section id="how"><div class="hw"><div><h2>How it works: Human Agency Layer</h2><p class="sub" style="margin-top:14px">AI drafts, a person decides. This rule is built into how every system works:</p></div>
+<section id="how"><div class="hw"><div><h2>How it works: Human Agency Layer</h2><p class="sub" style="margin-top:14px">AI drafts, a person decides. At Pronto all the agency stays with people, and this rule is built into how every system works:</p></div>
 <div class="hgrid">
  <div class="card hcard"><span class="nd"></span><span class="mono">sales bot</span><p>When the sales bot doesn't know an answer, it tells the customer a manager will check.</p></div>
  <div class="card hcard"><span class="nd"></span><span class="mono">our HQ</span><p>In our own HQ, no message or file goes out until a person approves it. The agents prepare three options, and a person picks one.</p></div>
@@ -305,7 +308,7 @@ footer .mono{font-size:11px}
 <footer><div class="wrap mono">Pronto · Takhir · <a href="https://t.me/hellotakhir" target="_blank" rel="noopener">t.me/hellotakhir</a></div></footer>
 <script>
 const SVC = [
- ["Sales bot", "Answers your customers on Telegram in Russian and Uzbek and takes them to a request.", "", [["a customer's question", "in", ""], ["the bot answers from your data", "agent", "ag"], ["your manager takes the request", "human", "h"]]],
+ ["Sales bot", "Answers your customers on the messenger they use, in their language, and leads them to a request.", "", [["a customer's question", "in", ""], ["the bot answers from your data", "agent", "ag"], ["your manager takes the request", "human", "h"]]],
  ["Content factory", "Short videos for your social media, built from your own knowledge base.", "", [["a video topic", "in", ""], ["the agent writes the script and makes the frames", "agent", "ag"], ["the budget and the frames wait for your button", "human", "h"]]],
  ["AI HQ", "A team of agents on your processes: tasks, summaries, replies.", "This is how we run our own work.", [["a task", "in", ""], ["the agents prepare the work", "agent", "ag"], ["only what you approved goes out", "human", "h"]]],
  ["Websites", "A landing page in 72 hours or a full site timed to scope, drafted with an agent.", "", [["your brief", "in", ""], ["a draft built with an agent", "agent", "ag"], ["you decide the look, the copy and every change", "human", "h"]]]];
