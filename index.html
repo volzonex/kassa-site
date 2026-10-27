@@ -207,7 +207,7 @@ nav a:hover,.ghost:hover{color:#fff}
 .dr{margin-top:12px;font-size:13.5px;color:var(--tx);opacity:0;transition:opacity .3s}
 .l2.drafted .sk{display:none} .l2.drafted .dr{opacity:1}
 /* варианты кнопками: гаснут при новом вопросе, всплывают по очереди */
-button.opt{font:inherit;width:100%;text-align:left;cursor:pointer;position:relative;transition:opacity .15s,transform .3s}
+button.opt{font-family:inherit;font-weight:inherit;line-height:inherit;width:100%;text-align:left;cursor:pointer;position:relative;transition:opacity .15s,transform .3s}
 .opts.out button.opt{opacity:0;transform:translateY(6px);pointer-events:none}
 .opts button.opt.in{opacity:1;transform:none}
 .stack.fast .pil i{animation-duration:1.2s}
@@ -271,7 +271,7 @@ footer .mono{font-size:11px}
  <div class="card hcard"><span class="nd"></span><span class="mono">your AI key</span><p>The AI key sits on your account, so you see the spend and can stop it.</p></div>
 </div></div></section>
 
-<section id="running"><div class="sh"><h2>What's running</h2></div><p class="sub">Systems in daily use. Client cases without names or numbers.</p>
+<section id="running"><span id="portfolio"></span><div class="sh"><h2>What's running</h2></div><p class="sub">Systems in daily use. Client cases without names or numbers.</p>
 <div class="works">
  <div class="w"><div class="hd mono"><span>Sample dialog. Client chats stay private.</span></div><div class="bot">
   <div class="msg me">Which model is best for a family?</div><div class="msg">I can suggest one by size and budget. How many people usually ride with you?</div>
@@ -288,7 +288,7 @@ footer .mono{font-size:11px}
  <div class="c" style="flex:1;margin:auto 0;padding-bottom:20px"><b>Websites</b><i>One live and paid for by a client, three demos built on real business data</i></div></div></div>
 </section>
 
-<section id="call" style="border-top:0"><div class="call">
+<section id="call" style="border-top:0"><span id="form"></span><div class="call">
  <h2>Tell us what you want to automate.</h2>
  <p class="lead">We answer personally, and you get a price in one conversation.</p>
  <div class="cta"><a class="btn" href="https://t.me/hellotakhir" target="_blank" rel="noopener">Message us on Telegram</a></div>
@@ -350,14 +350,14 @@ tags(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
   tag.classList.remove("flash"); void tag.offsetWidth; tag.classList.add("flash");
   stack.classList.remove("burst"); void stack.offsetWidth; stack.classList.add("burst"); setTimeout(function(){ stack.classList.remove("burst"); }, 650); });
 })();
-// [chiffon12] «Built with Claude»: число решений человека, один GET при загрузке; нет ответа за 3 с, null или не целое >= 0: без числа
+// [chiffon12] «Built with Claude»: число решений человека, один GET при загрузке; нет ответа за 3 с, null, ноль или не целое >= 1: без числа (ноль, критик rill20)
 (function(){
  var bw=document.getElementById("bw"), M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
  var ctl=window.AbortController ? new AbortController() : null, tm=setTimeout(function(){ if(ctl) ctl.abort(); }, 3000);
  fetch("https://hq-live-production.up.railway.app/kassa/approvals", {cache:"no-store", signal: ctl ? ctl.signal : undefined})
   .then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
    clearTimeout(tm); var n=j && j.approved, m=j && /^(\d{4})-(\d{2})-(\d{2})$/.exec(j.since||"");
-   if(typeof n!=="number" || !Number.isInteger(n) || n<0 || !m) return;
+   if(typeof n!=="number" || !Number.isInteger(n) || n<1 || !m) return;
    var num=n>=10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") : String(n), since=(+m[3])+" "+M[+m[2]-1];
    bw.innerHTML='<b>Built with Claude</b><span class="sep"></span><i></i><span class="n">'+num+'</span><span class="mono">'+(n===1?"decision":"decisions")+' approved<br>by a person · since '+since+'</span>';
    tags();
