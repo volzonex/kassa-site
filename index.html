@@ -194,10 +194,11 @@ nav a:hover,.ghost:hover{color:#fff}
 
 /* ---- фича первого экрана (CDO chiffon12, спека SPEC-FICHA.md, образец fich/v12): «Попробуй сам» и «Built with Claude» ---- */
 .try{margin-top:30px;display:flex;flex-direction:column;gap:10px;max-width:520px}
-.try .mono{color:rgba(255,255,255,.85)}
+.try .mono{color:#0A1B47;background:rgba(255,255,255,.45);border-radius:6px;padding:5px 9px;align-self:flex-start;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}   /* строка над пилюлями чернилами на светлой плашке без рамки, чтобы не читалась пилюлей: белая на небе давала 1,6-3,1:1 (CDO plover63, sycamore66) */
 .try .row{display:flex;gap:8px;flex-wrap:wrap}
-.try button{font:500 13px 'Golos Text';color:#fff;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);border-radius:12px;padding:8px 12px;min-height:44px;cursor:pointer;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.try button.on{background:#fff;color:var(--acc);border-color:#fff}
+/* пилюли чернилами на светлом стекле: белый текст на телефоне стоял над светлым небом, 1,2:1 (CDO plover63) */
+.try button{font:500 13px 'Golos Text';color:#0A1B47;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.55);border-radius:12px;padding:8px 12px;min-height:44px;cursor:pointer;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.try button.on{background:#fff;color:var(--acc);border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
 .try button:focus-visible,.opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
 /* печать вопроса: курсор кобальтом мигает прозрачностью, только пока печатается */
 .bub .cur{display:none;width:2px;height:15px;background:var(--acc);margin-left:3px;vertical-align:-2px}
