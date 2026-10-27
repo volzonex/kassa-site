@@ -228,6 +228,60 @@ button.opt{font-family:inherit;font-weight:inherit;line-height:inherit;width:100
  button.opt:before{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}   /* касание 44 при видимой высоте 32 */
 }
 @media (prefers-reduced-motion:reduce){button.opt,.dr{transition:none}}
+/* [ghostmoth47] секция «Content factory for social media» (спека CDO SPEC-CF.md, образец stand-cf2.html, тексты CCO pronto-content-factory-en-2710.md).
+   Только эта секция пёстрая: небо первого экрана, девять красок шагов и медленный радужный перелив. Классы с приставкой cf-, чтобы не задеть .tag, .lead, .eyebrow, .pills страницы */
+.cf{--c1:#C8642F;--c2:#E2463A;--c3:#F0A12B;--c4:#E9CF3C;--c5:#7DB548;--c6:#1F8A70;--c7:#3BA7D9;--c8:#5B55C9;--c9:#C64F8E;--ink:#2A2118;
+ position:relative;color:#fff;padding:96px 0 104px;border-top:0;overflow:hidden;isolation:isolate;width:100vw;margin-left:calc(50% - 50vw);   /* небо от края до края: блоки страницы стоят в общей колонке .wrap */
+ background:linear-gradient(180deg,#0560C2 0%,#1670CC 55%,#4E9CDD 85%,#7DB8E6 100%)}
+.cf-clouds{position:absolute;inset:0;z-index:-2;pointer-events:none}
+.cf-clouds:before,.cf-clouds:after{content:"";position:absolute;border-radius:50%;filter:blur(30px)}
+.cf-clouds:before{right:-10%;top:4%;width:60%;height:46%;background:radial-gradient(40% 46% at 50% 55%,rgba(255,255,255,.75),transparent 70%),radial-gradient(30% 34% at 28% 70%,rgba(255,255,255,.6),transparent 70%)}
+.cf-clouds:after{left:-14%;right:-14%;bottom:-6%;height:34%;background:radial-gradient(30% 50% at 20% 50%,rgba(255,255,255,.8),transparent 70%),radial-gradient(26% 46% at 55% 60%,rgba(255,255,255,.7),transparent 70%),radial-gradient(30% 50% at 86% 46%,rgba(255,255,255,.8),transparent 70%)}
+/* радуга: полоса в три ширины секции едет по transform (24 с) и дышит прозрачностью (8 с); под заголовком и лидом приглушена маской, контраст белого текста не ниже 5,4:1 */
+.cf-rainbow{position:absolute;top:-20%;bottom:-20%;left:0;width:300%;z-index:-1;pointer-events:none;opacity:.55;-webkit-mask:linear-gradient(180deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.12) 30%,#000 46%);mask:linear-gradient(180deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.12) 30%,#000 46%);
+ background:linear-gradient(100deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c8),var(--c9),var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c8),var(--c9),var(--c1));
+ animation:cfrb 24s linear infinite,cfrbo 8s ease-in-out infinite}
+@keyframes cfrb{to{transform:translateX(-50%)}}
+@keyframes cfrbo{50%{opacity:.38}}
+.cf-eyebrow{color:rgba(255,255,255,.88)}
+.cf h2{font:600 clamp(32px,4.2vw,58px)/1.05 Unbounded,sans-serif;letter-spacing:-.01em;margin:14px 0 16px;max-width:15em;color:#fff}
+.cf-lead{font-size:18px;color:rgba(255,255,255,.92);max-width:36em}
+.cf-agency{margin-top:12px;font:600 17px/1.4 'Golos Text',sans-serif;color:#fff;width:fit-content;max-width:36em;display:flex;align-items:center;gap:10px}
+.cf-agency:before{content:"";flex:none;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.28)}
+.cf-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.cf-pills span{border-radius:10px;padding:6px 10px;background:rgba(255,255,255,.55);color:#0A1B47;box-shadow:inset 0 0 0 1px rgba(255,255,255,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.cf-flow{list-style:none;margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cf-chip{position:relative;background:#fff;color:var(--ink);border-radius:16px;box-shadow:0 1px 0 rgba(42,33,24,.06),0 10px 24px rgba(42,33,24,.08);overflow:hidden;display:flex}
+.cf-sw{width:84px;flex:none;position:relative}
+.cf-sw:after{content:"";position:absolute;top:0;bottom:0;right:-1px;width:12px;background:#fff;-webkit-mask:radial-gradient(6px 8px at 0 10px,transparent 98%,#000) 0 0/12px 20px repeat-y;mask:radial-gradient(6px 8px at 0 10px,transparent 98%,#000) 0 0/12px 20px repeat-y}
+.cf-num{position:absolute;left:12px;top:10px;font:600 12px Unbounded,sans-serif;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.cf-chip b{display:block;font:600 16px/1.25 'Golos Text',sans-serif;padding:16px 16px 0}
+.cf-chip p{font-size:13.5px;line-height:1.45;color:#6B5C49;padding:6px 16px 16px}
+.cf-chip.you{box-shadow:0 0 0 2px var(--acc),0 10px 24px rgba(0,99,199,.18)}
+.cf-chip.man{box-shadow:0 0 0 1.5px rgba(0,99,199,.55),0 10px 24px rgba(42,33,24,.08)}
+.cf-tag{display:inline-block;margin:14px 0 -8px 16px;font:600 10px var(--mono);letter-spacing:.06em;color:#fff;background:var(--acc);border-radius:7px;padding:3px 6px}
+.cf-chip.man .cf-tag{background:#fff;color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.cf-pick{margin-top:64px;display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:stretch}
+.cf-box{background:#fff;color:var(--ink);border-radius:22px;padding:22px;box-shadow:0 10px 24px rgba(42,33,24,.08)}
+.cf-box h3{font:600 18px 'Golos Text',sans-serif;margin-bottom:4px}
+.cf-box .cf-s{font-size:13.5px;color:#6B5C49;margin-bottom:16px}
+.cf-pans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 12px;margin-top:8px}
+.cf-pan{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-size:12.5px;line-height:1.3}
+.cf-pan i{width:76px;height:56px;border-radius:12px;box-shadow:inset 0 -6px 10px rgba(0,0,0,.18),inset 0 4px 6px rgba(255,255,255,.35),0 0 0 4px #F1EADF}
+.cf-note{margin-top:12px;font-size:12px;color:#7A6A55}
+.cf-strokes{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:22px}
+.cf-strokes i{height:110px;border-radius:999px 999px 40px 40px/120px 120px 40px 40px;box-shadow:inset 0 -10px 18px rgba(0,0,0,.15),inset 0 8px 12px rgba(255,255,255,.3)}
+.cf-modes{margin-top:28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.cf-mode{background:#fff;color:var(--ink);border-radius:18px;padding:18px 20px;box-shadow:0 10px 24px rgba(42,33,24,.08);position:relative}
+.cf-mode .mono{color:#7A6A55}
+.cf-mode b{display:block;font:600 16px 'Golos Text',sans-serif;margin:6px 0 4px}
+.cf-mode p{font-size:13.5px;color:#6B5C49}
+.cf-mode.k{background:#033B83;color:#fff}.cf-mode.k p{color:rgba(255,255,255,.82)}.cf-mode.k .mono{color:rgba(255,255,255,.7)}
+.cf-dot{position:absolute;right:16px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px rgba(0,99,199,.18)}
+@media (max-width:900px){.cf{padding:72px 0 80px}
+ .cf-flow{grid-template-columns:1fr;gap:8px}.cf-sw{width:58px}.cf-chip b{padding:14px 14px 0}.cf-chip p{padding:4px 14px 14px}
+ .cf-pick{grid-template-columns:1fr}.cf-modes{grid-template-columns:1fr}.cf-strokes i{height:64px}}
+@media (prefers-reduced-motion:reduce){.cf-rainbow{animation:none}}
 footer{border-top:1px solid var(--ln);padding:26px 0 34px;color:var(--dim)}
 footer .mono{font-size:11px}
 @media (max-width:900px){
@@ -264,6 +318,35 @@ footer .mono{font-size:11px}
 <section id="what"><div class="sh"><h2>What we do</h2></div><p class="sub">Every service has three layers: what comes in, what the agent prepares, what you decide.</p>
 <div class="svc" id="svc"></div></section>
 
+<section class="cf" id="content-factory"><div class="cf-clouds"></div><div class="cf-rainbow"></div><div class="wrap">
+ <span class="mono cf-eyebrow">Content factory · for social media</span>
+ <h2>Content factory for social media</h2>
+ <p class="cf-lead">Short vertical videos about your brand, from fact to finished reel. You run it in a few taps, and every paid step waits for your button.</p>
+ <p class="cf-agency">All the agency stays with you: nothing is generated or spent without your approval.</p>
+ <div class="cf-pills mono"><span>Auto or manual</span><span>Your knowledge base</span><span>Your account, your spend</span></div>
+ <ol class="cf-flow">
+  <li class="cf-chip"><div class="cf-sw" style="background:var(--c1)"><span class="cf-num">01</span></div><div><b>Knowledge base</b><p>We collect facts about your brand into a base. Every fact has a source and a mark: confirmed independently or the company&#x27;s own words. If a fact isn&#x27;t in the base, it isn&#x27;t in the video.</p></div></li>
+  <li class="cf-chip"><div class="cf-sw" style="background:var(--c2)"><span class="cf-num">02</span></div><div><b>Genre and style</b><p>Seven genres and styles agreed with you, picked by the system or by you.</p></div></li>
+  <li class="cf-chip man"><div class="cf-sw" style="background:var(--c3)"><span class="cf-num">03</span></div><div><span class="cf-tag">MANUAL: YOUR OK</span><b>Script</b><p>The agent writes the script from base facts only. In manual mode the script waits for your Approve or Rewrite.</p></div></li>
+  <li class="cf-chip you"><div class="cf-sw" style="background:var(--c4)"><span class="cf-num">04</span></div><div><span class="cf-tag">YOUR BUTTON</span><b>Estimate and button</b><p>Before each video the system sends one estimate with an upper limit: script, frames and voice. Nothing is spent until you press the button. If the exact cost comes out higher, it stops and asks again.</p></div></li>
+  <li class="cf-chip man"><div class="cf-sw" style="background:var(--c5)"><span class="cf-num">05</span></div><div><span class="cf-tag">MANUAL: YOUR OK</span><b>Frames and frame sheet</b><p>The system makes the frames and, in manual mode, sends a frame sheet: every frame next to the script line it shows. You approve the sheet or redo a single frame. Editing starts only after you approve.</p></div></li>
+  <li class="cf-chip"><div class="cf-sw" style="background:var(--c6)"><span class="cf-num">06</span></div><div><b>Animation</b><p>The first frame comes alive to hold the opening seconds. The other frames get effects from the light already in them: a lamp beam with dust, a glow, phone flashes.</p></div></li>
+  <li class="cf-chip"><div class="cf-sw" style="background:var(--c7)"><span class="cf-num">07</span></div><div><b>Voice and subtitles</b><p>Voice-over in the language you choose. Subtitles follow every spoken word, so the video works with the sound off.</p></div></li>
+  <li class="cf-chip"><div class="cf-sw" style="background:var(--c8)"><span class="cf-num">08</span></div><div><b>Editing</b><p>The system cuts the frames to the voice: a new frame every 2-3 seconds, showing what the voice is saying.</p></div></li>
+  <li class="cf-chip"><div class="cf-sw" style="background:var(--c9)"><span class="cf-num">09</span></div><div><b>Reel</b><p>About 45 seconds, vertical 1080×1920, delivered to you together with its actual spend next to the estimate.</p></div></li>
+ </ol>
+ <div class="cf-pick">
+  <div class="cf-box"><h3>7 genres</h3><p class="cf-s">From brand history and myth vs truth to top lists and comparisons.</p><div class="cf-pans"><div class="cf-pan"><i style="background:var(--c1)"></i>Brand history</div><div class="cf-pan"><i style="background:var(--c2)"></i>Myth vs truth</div><div class="cf-pan"><i style="background:var(--c3)"></i>Explainer</div><div class="cf-pan"><i style="background:var(--c5)"></i>Top list</div><div class="cf-pan"><i style="background:var(--c6)"></i>Comparison</div><div class="cf-pan"><i style="background:var(--c7)"></i>First person</div><div class="cf-pan"><i style="background:var(--c9)"></i>Detail reels</div></div>
+   <p class="cf-note"><b>Detail reels without voice.</b> A 20-second reel built from your real product photos. There's no generation in it, so it costs nothing to make.</p></div>
+  <div class="cf-box"><h3>Your style</h3><p class="cf-s">Visual styles we agree on with you. In auto mode the system rotates between them, so your feed doesn't repeat itself.</p>
+   <div class="cf-strokes" aria-hidden="true"><i style="background:var(--c2)"></i><i style="background:var(--c3)"></i><i style="background:var(--c5)"></i><i style="background:var(--c7)"></i><i style="background:var(--c8)"></i><i style="background:var(--c9)"></i></div></div>
+ </div>
+ <div class="cf-modes">
+  <div class="cf-mode"><span class="mono">Auto</span><b>You approve the estimate</b><p>You approve the estimate, and the system picks the genre, style and topic from the base, makes the reel and sends it to you.</p><span class="cf-dot"></span></div>
+  <div class="cf-mode"><span class="mono">Manual</span><b>You choose at each step</b><p>You choose the genre, style and topic at each step, or leave the choice to the system. The script and the frame sheet wait for your approval.</p><span class="cf-dot"></span></div>
+  <div class="cf-mode k"><span class="mono">Generation on your account</span><b>Your balance, your spend</b><p>Frames, voice and scripts run on your own AI service accounts. The spend comes off your balance, you see every charge, and you can stop it.</p></div>
+ </div>
+</div></section>
 <section id="how"><div class="hw"><div><h2>How it works: Human Agency Layer</h2><p class="sub" style="margin-top:14px">AI drafts, a person decides. At Pronto all the agency stays with people, and this rule is built into how every system works:</p></div>
 <div class="hgrid">
  <div class="card hcard"><span class="nd"></span><span class="mono">sales bot</span><p>When the sales bot doesn't know an answer, it tells the customer a manager will check.</p></div>
