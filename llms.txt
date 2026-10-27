@@ -1,39 +1,51 @@
-# Pronto
+# КАССА (KASSA)
 
-> AI automation for businesses with a Human Agency Layer: AI drafts, a person decides. We build sales bots, content factories, an AI HQ and websites. Agents prepare the work, the sales bot answers from the client's own catalogue and prices, and nothing paid starts without the owner's button.
+> Тахир сам делает сайты и лендинги для бизнеса: лендинг под одну задачу за 72 часа, сайт для бизнеса со сроком по объёму, сопровождение после запуска. Без агентства и без субподрядчиков.
 
-There are no prices on the site: we give a price in one conversation on Telegram.
+Сайт на русском и английском, язык переключается на странице. Цены на сайте нет: Тахир называет её за один разговор в телеграме, она зависит от объёма и срочности.
 
-## What we do
+## Услуги
 
-- Sales bot: answers customers on Telegram in Russian and Uzbek and takes them to a request; the client's manager takes the request.
-- Content factory: short videos for social media, built from the client's own knowledge base; the agent writes the script and makes the frames, the budget and the frames wait for the owner's button.
-- AI HQ: a team of agents on the client's processes, such as tasks, summaries and replies. This is how we run our own work.
-- Websites: a landing page in 72 hours or a full site timed to scope, drafted with an agent; the client decides the look, the copy and every change.
+- [Лендинг под одну задачу](https://kassa-site.vercel.app/): событие, акция или запуск, срок сборки 72 часа.
+- Сайт для бизнеса: срок зависит от объёма.
+- Сопровождение после запуска: правки, обновления, обслуживание.
+- Что входит: сайт на проде, правки до запуска, домен, хостинг и форма заявки уже настроены.
+- ИИ-боты, которые отвечают клиентам и ведут заявку: отдельный продукт Тахира, Pronto.
 
-## Human Agency Layer
+## Работы
 
-AI drafts, a person decides. It is built into how every system works:
+- [Сайт производственной компании, потолочные системы](https://devago-ceiling-site.vercel.app/): в проде, оплачен клиентом, узбекская и русская версии.
+- [Лендинг салона красоты с записью через WhatsApp](https://aselhands-site.vercel.app/): демо на реальных данных бизнеса.
+- [Лендинг кальян-бара с бронью и доставкой](https://easy-lounge-site.vercel.app/): демо на реальных данных бизнеса.
+- [Лендинг лаундж-кафе с бронью столика](https://friendly-lounge-site.vercel.app/): демо на реальных данных бизнеса.
 
-- When the sales bot doesn't know an answer, it tells the customer a manager will check.
-- In our own HQ, no message or file goes out until a person approves it. The agents prepare three options, and a person picks one.
-- Paid generation waits for an estimate and the owner's button. It never starts on its own.
-- The AI key sits on the client's account, so the client sees the spend and can stop it.
+## Связаться
 
-## What's running
+- [Телеграм](https://t.me/hellotakhir): Тахир отвечает сам.
+- [Форма заявки](https://kassa-site.vercel.app/#form): заявка уходит Тахиру в телеграм.
 
-- Sales bot for a car dealer: live and paid for by the client; each request goes to a manager and the CRM.
-- Content factory for a car dealer: live and paid for by the client; the budget and the frame sheet wait for the owner's button.
-- AI HQ: how we run our own work.
-- Websites: one live and paid for by a client, three demos built on real business data:
-  - [A manufacturer's website, ceiling systems](https://devago-ceiling-site.vercel.app/): live, paid for by the client.
-  - [A beauty salon landing page with WhatsApp bookings](https://aselhands-site.vercel.app/): a demo built on a real business's data.
-  - [A hookah bar landing page with table booking and delivery](https://easy-lounge-site.vercel.app/): a demo built on a real business's data.
-  - [A lounge café landing page with table booking](https://friendly-lounge-site.vercel.app/): a demo built on a real business's data.
+## English
 
-Client cases are shown without client names or numbers.
+> Takhir builds websites and landing pages for businesses himself: a landing page for one goal in 72 hours, a business website timed to scope, and upkeep after launch. No agency and no subcontractors.
 
-## Contact
+The site is in Russian and English, with a language switch on the page. There is no price on the site: Takhir gives a number in one conversation on Telegram, depending on scope and urgency.
 
-- [Telegram](https://t.me/hellotakhir): we answer personally.
-- [Site](https://kassa-site.vercel.app/): the contact form on the site sends the request straight to Telegram.
+### Services
+
+- [A landing page for one goal](https://kassa-site.vercel.app/): an event, an offer or a launch, built in 72 hours.
+- A business website: timeline depends on scope.
+- Upkeep after launch: edits, updates, maintenance.
+- Included: a live site, changes before launch, domain, hosting and a contact form already set up.
+- AI bots that answer customers and capture leads: a separate product by Takhir, Pronto.
+
+### Work
+
+- [A manufacturer's website, ceiling systems](https://devago-ceiling-site.vercel.app/): live, paid for by the client, in Uzbek and Russian.
+- [A beauty salon landing page with WhatsApp bookings](https://aselhands-site.vercel.app/): a demo built on a real business's data.
+- [A hookah bar landing page with table booking and delivery](https://easy-lounge-site.vercel.app/): a demo built on a real business's data.
+- [A lounge café landing page with table booking](https://friendly-lounge-site.vercel.app/): a demo built on a real business's data.
+
+### Contact
+
+- [Telegram](https://t.me/hellotakhir): Takhir answers himself.
+- [Contact form](https://kassa-site.vercel.app/#form): requests go straight to Takhir's Telegram.
