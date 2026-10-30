@@ -452,7 +452,7 @@ tags(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
 })();
 // форма: тот же адрес заявок и та же отправка, что на живом сайте (hq-live /kassa/lead: name, contact, kind, message, lang; ловушка website)
 (function(){
- var LEAD="https://hq-live-production.up.railway.app/kassa/lead", f=document.getElementById("lead"), msg=document.getElementById("fmsg"), done=document.getElementById("done");
+ var LEAD="https://cardo.northlantern48.com/kassa/lead", f=document.getElementById("lead"), msg=document.getElementById("fmsg"), done=document.getElementById("done");
  f.addEventListener("submit", function(ev){
   ev.preventDefault(); var d=new FormData(f); if(d.get("website")) return;
   var name=(d.get("name")||"").trim(), contact=(d.get("contact")||"").trim();
